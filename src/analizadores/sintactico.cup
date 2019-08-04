@@ -1,0 +1,106 @@
+//******************************************************************************
+//**                       Importar paquetes                                  **
+//******************************************************************************
+package analizadores;
+
+//******************************************************************************
+//**                       Importar librería                                  **
+//******************************************************************************
+import java_cup.runtime.Symbol;
+import almacenamiento.Clave;
+import java.util.ArrayList;
+
+//PARSER 
+parser code
+{://Codigo visible
+
+    public int er = 0;
+    public int enr = 0;
+
+    public void syntax_error(Symbol s){
+        System.out.println("Error R de sintaxis: "+ s.value +" Linea "+(s.left+1)+" columna "+(s.right+1) );
+        er = er+1;
+    }
+
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
+        System.out.println("Error NR de sintaxis: "+ s.value +" Linea "+(s.left+1)+" columna "+(s.right+1) );
+        enr = enr +1;
+    }
+
+:}
+
+action code
+{://Codigo de acciones
+
+    public String algo = "";
+    public ArrayList<Clave> listaClaves = new ArrayList<Clave>();
+
+:}
+
+
+//******************************************************************************
+//**                     Seccion de terminales                                **
+//******************************************************************************
+
+terminal R_CLAVES, R_REGISTROS, CORCHETEABRE, CORCHETECIERRA, IGUAL, SPACE, ENTER, COMA, LLAVEABRE, LLAVECIERRA, COMENTARIOU, COMENTARIOM;
+terminal String CADENA, NUMERICO;
+
+//******************************************************************************
+//**                     Seccion de no terminales                             **
+//******************************************************************************
+nonterminal S,INICIO, DEF_CLAVES, DEF_REGISTROS, LISTA_REGISTROS;
+nonterminal String TIPO, INICIO2;
+//******************************************************************************
+//**                       Inicio con:                                        **
+//******************************************************************************
+start with S;
+//******************************************************************************
+//**                            Reglas                                        **
+//******************************************************************************
+S::= INICIO
+;
+
+INICIO::=   INICIO2:a R_REGISTROS IGUAL CORCHETEABRE DEF_REGISTROS CORCHETECIERRA
+            {:
+                String imprimir = "Fin del análisis, se ecnontraron " + a + " claves";
+                System.out.println(imprimir);
+            :}
+;
+
+INICIO2::= R_CLAVES IGUAL CORCHETEABRE DEF_CLAVES CORCHETECIERRA
+            {:
+                if(listaClaves.size() > 0){
+                    RESULT = String.valueOf(listaClaves.size());
+                }
+            :}
+;
+
+
+DEF_CLAVES::=   DEF_CLAVES COMA CADENA:a
+                {:
+                    if(!a.equals("")){
+                        Clave newClave = new Clave(a, 0);
+                        listaClaves.add(newClave);
+                    }
+                :}
+            |   CADENA:b
+                {:
+                    if(!b.equals("")){
+                        Clave newClave = new Clave(b, 0);
+                        listaClaves.add(newClave);
+                    }
+                :}
+;
+
+DEF_REGISTROS::=    DEF_REGISTROS LLAVEABRE LISTA_REGISTROS LLAVECIERRA
+                |   
+;
+
+LISTA_REGISTROS::=  LISTA_REGISTROS COMA TIPO
+                |   TIPO
+;
+
+TIPO::=     NUMERICO
+        |   CADENA
+;
+
