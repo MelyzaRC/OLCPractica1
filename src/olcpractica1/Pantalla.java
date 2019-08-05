@@ -58,6 +58,7 @@ public class Pantalla extends javax.swing.JFrame {
 
     private void btn_cargarArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cargarArchivoActionPerformed
         try {
+            
             //Aquí va el texto de prueba
             String texto = abrirArchivo();
 
@@ -70,7 +71,7 @@ public class Pantalla extends javax.swing.JFrame {
                 }else{
                     JOptionPane.showMessageDialog(null, "Se completó el análisis");
                     for(int i = 0; i < parser.action_obj.listaClaves.size(); i++){
-                        System.out.println("Clave: " + parser.action_obj.listaClaves.get(i).nombre);
+                        System.out.println("Clave: " + parser.action_obj.listaClaves.get(i).nombre + " tipo: " + parser.action_obj.listaClaves.get(i).tipo);
                     }
                 }
 

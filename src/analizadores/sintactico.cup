@@ -12,7 +12,8 @@ import java.util.ArrayList;
 
 //PARSER 
 parser code
-{://Codigo visible
+{:
+    //Codigo visible
 
     public int er = 0;
     public int enr = 0;
@@ -34,6 +35,10 @@ action code
 
     public String algo = "";
     public ArrayList<Clave> listaClaves = new ArrayList<Clave>();
+    public int dimension = 0;
+    public ArrayList<Object[]> listaRegistros = new ArrayList<Object[]>();
+    public ArrayList<String> temporal = new ArrayList<String>();
+    public int buscando = 0;
 
 :}
 
@@ -48,8 +53,8 @@ terminal String CADENA, NUMERICO;
 //******************************************************************************
 //**                     Seccion de no terminales                             **
 //******************************************************************************
-nonterminal S,INICIO, DEF_CLAVES, DEF_REGISTROS, LISTA_REGISTROS;
-nonterminal String TIPO, INICIO2;
+nonterminal S,INICIO, DEF_CLAVES, DEF_REGISTROS, LISTA_REGISTROS, SECCIONCLAVES;
+nonterminal String TIPO;
 //******************************************************************************
 //**                       Inicio con:                                        **
 //******************************************************************************
@@ -60,19 +65,24 @@ start with S;
 S::= INICIO
 ;
 
-INICIO::=   INICIO2:a R_REGISTROS IGUAL CORCHETEABRE DEF_REGISTROS CORCHETECIERRA
+INICIO::=   SECCIONCLAVES R_REGISTROS IGUAL CORCHETEABRE DEF_REGISTROS CORCHETECIERRA
             {:
-                String imprimir = "Fin del análisis, se ecnontraron " + a + " claves";
+                String imprimir = "Fin del análisis";
                 System.out.println(imprimir);
             :}
 ;
 
-INICIO2::= R_CLAVES IGUAL CORCHETEABRE DEF_CLAVES CORCHETECIERRA
-            {:
-                if(listaClaves.size() > 0){
-                    RESULT = String.valueOf(listaClaves.size());
-                }
-            :}
+SECCIONCLAVES::=    R_CLAVES IGUAL CORCHETEABRE DEF_CLAVES CORCHETECIERRA
+                    {:
+                        if(listaClaves.size() > 0){
+                            dimension = listaClaves.size();
+                            System.out.println("La dimensión es" + dimension);
+                            temporal.clear();
+                        }else{
+                            System.out.println("No se han detectado claves");
+                            temporal.clear();
+                        }
+                    :}
 ;
 
 
@@ -93,14 +103,47 @@ DEF_CLAVES::=   DEF_CLAVES COMA CADENA:a
 ;
 
 DEF_REGISTROS::=    DEF_REGISTROS LLAVEABRE LISTA_REGISTROS LLAVECIERRA
+                    {:
+                        if(temporal.size() == dimension){
+                            System.out.println("La dimensión está bien");
+                            //si es la primera vez que asigne tipos
+                            if(buscando == 0){
+                                for(int i = 0; i < temporal.size(); i++){
+                                    if(temporal.get(i).matches("[+-]?\\d*(\\.\\d+)?") && temporal.get(i).equals("")==false){
+                                        listaClaves.get(i).tipo = 0;
+                                    }else{
+                                        listaClaves.get(i).tipo = 1;
+                                    }
+                                }
+                                buscando = 1;
+                            }
+
+                            //introduce el arreglo al array de registros
+                        }else{
+                            System.out.println("La dimension está mal");
+                        }
+                        temporal.clear();
+                    :}
                 |   
 ;
 
-LISTA_REGISTROS::=  LISTA_REGISTROS COMA TIPO
-                |   TIPO
+LISTA_REGISTROS::=  LISTA_REGISTROS COMA TIPO:a
+                    {:
+                        temporal.add(a);
+                    :}
+                |   TIPO:b
+                    {:
+                        temporal.add(b);
+                    :}
 ;
 
-TIPO::=     NUMERICO
-        |   CADENA
+TIPO::=     NUMERICO:a
+            {:
+                RESULT = a;
+            :}
+        |   CADENA:b
+            {:
+                RESULT = b;
+            :}
 ;
 
