@@ -208,10 +208,9 @@ public class CUP$parser$actions {
 		
                         if(listaClaves.size() > 0){
                             dimension = listaClaves.size();
-                            System.out.println("La dimensión es" + dimension);
                             temporal.clear();
                         }else{
-                            System.out.println("No se han detectado claves");
+                            System.out.println("Error, no se detectaron claves");
                             temporal.clear();
                         }
                     
@@ -228,8 +227,18 @@ public class CUP$parser$actions {
 		String a = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
                     if(!a.equals("")){
-                        Clave newClave = new Clave(a, 0);
-                        listaClaves.add(newClave);
+                        String n = a;
+                        String tmpW = "";
+                        char[] nue = n.toCharArray();
+                        for(int i = 1; i<nue.length-1; i++){
+                            tmpW = tmpW + nue[i]; 
+                        }
+                        if(!tmpW.equals("")){
+                            Clave newClave = new Clave(tmpW, 0);
+                            listaClaves.add(newClave);
+                        }else{
+                            System.out.println("Error, el nombre de la clave está vacío");
+                        }
                     }
                 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("DEF_CLAVES",2, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
@@ -244,9 +253,17 @@ public class CUP$parser$actions {
 		int bright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		String b = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
-                    if(!b.equals("")){
-                        Clave newClave = new Clave(b, 0);
+                    String n = b;
+                    String tmpW = "";
+                    char[] nue = n.toCharArray();
+                    for(int i = 1; i<nue.length-1; i++){
+                        tmpW = tmpW + nue[i]; 
+                    }
+                    if(!tmpW.equals("")){
+                        Clave newClave = new Clave(tmpW, 0);
                         listaClaves.add(newClave);
+                    }else{
+                        System.out.println("Error, el nombre de la clave está vacío");
                     }
                 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("DEF_CLAVES",2, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
@@ -259,20 +276,45 @@ public class CUP$parser$actions {
               Object RESULT =null;
 		
                         if(temporal.size() == dimension){
-                            System.out.println("La dimensión está bien");
                             //si es la primera vez que asigne tipos
                             if(buscando == 0){
                                 for(int i = 0; i < temporal.size(); i++){
-                                    if(temporal.get(i).matches("[+-]?\\d*(\\.\\d+)?") && temporal.get(i).equals("")==false){
-                                        listaClaves.get(i).tipo = 0;
-                                    }else{
-                                        listaClaves.get(i).tipo = 1;
+                                    if(!temporal.get(i).equals("")){
+                                        if(temporal.get(i).toCharArray()[0]== '"' &&temporal.get(i).toCharArray()[temporal.get(i).toCharArray().length -1] =='"'){
+                                            listaClaves.get(i).tipo = 1;
+                                        }else if(temporal.get(i).matches("[+-]?\\d*(\\.\\d+)?") && temporal.get(i).equals("")==false){
+                                            listaClaves.get(i).tipo = 0;
+                                        }else{
+                                            System.out.println("Error no coincide con ningún tipo");
+                                        }
                                     }
                                 }
                                 buscando = 1;
                             }
+                            Object[] nAO = new Object[dimension];
+                            for(int i = 0; i < dimension; i++){
+                                if(listaClaves.get(i).tipo == 1){
+                                    String formar = "";
+                                    if(temporal.get(i).toCharArray()[0]== '"' &&temporal.get(i).toCharArray()[temporal.get(i).toCharArray().length -1] =='"'){
+                                        for(int j = 1; j < temporal.get(i).toCharArray().length-1; j++){
+                                            formar = formar + temporal.get(i).toCharArray()[j];
+                                        }
+                                        nAO[i] = formar;
+                                    }else{
+                                        System.out.println("Error, se esperaba una cadena");
+                                    }
+                                }else if(listaClaves.get(i).tipo == 0){
+                                    if(temporal.get(i).matches("[+-]?\\d*(\\.\\d+)?") && temporal.get(i).equals("")==false){
+                                        nAO[i] = temporal.get(i);
+                                    }else{
+                                        System.out.println("Error, se esperaba un tipo de dato numerico");
+                                    }
+                                }
+                            }
+                            temporal.clear();
+                            listaRegistros.add(nAO);
                         }else{
-                            System.out.println("La dimension está mal");
+                            System.out.println("Error, el número de claves no concuerda con el registro");
                         }
                         temporal.clear();
                     

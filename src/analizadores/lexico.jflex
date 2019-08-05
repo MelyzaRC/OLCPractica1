@@ -69,7 +69,7 @@ COMENTARIOM ="/*""/"*([^*/]|[^*]"/"|"*"[^/])*"*"*"*/"
 
 <CADENA> {
         [\"]    {
-                     String tmp=cadena+""; cadena=""; yybegin(YYINITIAL);  return new Symbol(sym.CADENA, yychar,yyline,tmp); 
+                     String tmp="\""+cadena+"\""; cadena=""; yybegin(YYINITIAL);  return new Symbol(sym.CADENA, yychar,yyline,tmp); 
                 }
         [\n]    {
                     String tmp=cadena; cadena="";  

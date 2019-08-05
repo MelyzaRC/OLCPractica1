@@ -58,27 +58,23 @@ public class Pantalla extends javax.swing.JFrame {
 
     private void btn_cargarArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cargarArchivoActionPerformed
         try {
-            
             //Aquí va el texto de prueba
             String texto = abrirArchivo();
-
             scanner scan = new scanner(new BufferedReader(new StringReader(texto)));
             parser parser = new parser(scan);
             parser.parse();
             if (parser.enr == 0) {//quiere decir que no tuvo errores no recuperables o sea que si puede hacer el reporte
                 if (parser.er != 0) {
                     JOptionPane.showMessageDialog(null, "Se han detectado errores, los mismos se han omitido.");
-                }else{
+                } else {
                     JOptionPane.showMessageDialog(null, "Se completó el análisis");
-                    for(int i = 0; i < parser.action_obj.listaClaves.size(); i++){
+                    for (int i = 0; i < parser.action_obj.listaClaves.size(); i++) {
                         System.out.println("Clave: " + parser.action_obj.listaClaves.get(i).nombre + " tipo: " + parser.action_obj.listaClaves.get(i).tipo);
                     }
                 }
-
             } else {
                 JOptionPane.showMessageDialog(null, "Se han detectado errores, no se ha podido recuperar.");
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -106,7 +102,7 @@ public class Pantalla extends javax.swing.JFrame {
         }
         return texto;
     }
-    
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

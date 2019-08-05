@@ -2,7 +2,6 @@
 //**                       Importar paquetes                                  **
 //******************************************************************************
 package analizadores;
-
 //******************************************************************************
 //**                       Importar librería                                  **
 //******************************************************************************
@@ -14,42 +13,35 @@ import java.util.ArrayList;
 parser code
 {:
     //Codigo visible
-
     public int er = 0;
     public int enr = 0;
-
     public void syntax_error(Symbol s){
         System.out.println("Error R de sintaxis: "+ s.value +" Linea "+(s.left+1)+" columna "+(s.right+1) );
         er = er+1;
     }
-
     public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
         System.out.println("Error NR de sintaxis: "+ s.value +" Linea "+(s.left+1)+" columna "+(s.right+1) );
         enr = enr +1;
     }
-
 :}
 
 action code
-{://Codigo de acciones
-
+{:
+    //Codigo de acciones
     public String algo = "";
-    public ArrayList<Clave> listaClaves = new ArrayList<Clave>();
     public int dimension = 0;
+    public int buscando = 0;
+    public ArrayList<Clave> listaClaves = new ArrayList<Clave>();
     public ArrayList<Object[]> listaRegistros = new ArrayList<Object[]>();
     public ArrayList<String> temporal = new ArrayList<String>();
-    public int buscando = 0;
-
 :}
 
 
 //******************************************************************************
 //**                     Seccion de terminales                                **
 //******************************************************************************
-
 terminal R_CLAVES, R_REGISTROS, CORCHETEABRE, CORCHETECIERRA, IGUAL, SPACE, ENTER, COMA, LLAVEABRE, LLAVECIERRA, COMENTARIOU, COMENTARIOM;
 terminal String CADENA, NUMERICO;
-
 //******************************************************************************
 //**                     Seccion de no terminales                             **
 //******************************************************************************
@@ -76,28 +68,44 @@ SECCIONCLAVES::=    R_CLAVES IGUAL CORCHETEABRE DEF_CLAVES CORCHETECIERRA
                     {:
                         if(listaClaves.size() > 0){
                             dimension = listaClaves.size();
-                            System.out.println("La dimensión es" + dimension);
                             temporal.clear();
                         }else{
-                            System.out.println("No se han detectado claves");
+                            System.out.println("Error, no se detectaron claves");
                             temporal.clear();
                         }
                     :}
 ;
 
-
 DEF_CLAVES::=   DEF_CLAVES COMA CADENA:a
                 {:
                     if(!a.equals("")){
-                        Clave newClave = new Clave(a, 0);
-                        listaClaves.add(newClave);
+                        String n = a;
+                        String tmpW = "";
+                        char[] nue = n.toCharArray();
+                        for(int i = 1; i<nue.length-1; i++){
+                            tmpW = tmpW + nue[i]; 
+                        }
+                        if(!tmpW.equals("")){
+                            Clave newClave = new Clave(tmpW, 0);
+                            listaClaves.add(newClave);
+                        }else{
+                            System.out.println("Error, el nombre de la clave está vacío");
+                        }
                     }
                 :}
             |   CADENA:b
                 {:
-                    if(!b.equals("")){
-                        Clave newClave = new Clave(b, 0);
+                    String n = b;
+                    String tmpW = "";
+                    char[] nue = n.toCharArray();
+                    for(int i = 1; i<nue.length-1; i++){
+                        tmpW = tmpW + nue[i]; 
+                    }
+                    if(!tmpW.equals("")){
+                        Clave newClave = new Clave(tmpW, 0);
                         listaClaves.add(newClave);
+                    }else{
+                        System.out.println("Error, el nombre de la clave está vacío");
                     }
                 :}
 ;
@@ -105,22 +113,45 @@ DEF_CLAVES::=   DEF_CLAVES COMA CADENA:a
 DEF_REGISTROS::=    DEF_REGISTROS LLAVEABRE LISTA_REGISTROS LLAVECIERRA
                     {:
                         if(temporal.size() == dimension){
-                            System.out.println("La dimensión está bien");
                             //si es la primera vez que asigne tipos
                             if(buscando == 0){
                                 for(int i = 0; i < temporal.size(); i++){
-                                    if(temporal.get(i).matches("[+-]?\\d*(\\.\\d+)?") && temporal.get(i).equals("")==false){
-                                        listaClaves.get(i).tipo = 0;
-                                    }else{
-                                        listaClaves.get(i).tipo = 1;
+                                    if(!temporal.get(i).equals("")){
+                                        if(temporal.get(i).toCharArray()[0]== '"' &&temporal.get(i).toCharArray()[temporal.get(i).toCharArray().length -1] =='"'){
+                                            listaClaves.get(i).tipo = 1;
+                                        }else if(temporal.get(i).matches("[+-]?\\d*(\\.\\d+)?") && temporal.get(i).equals("")==false){
+                                            listaClaves.get(i).tipo = 0;
+                                        }else{
+                                            System.out.println("Error no coincide con ningún tipo");
+                                        }
                                     }
                                 }
                                 buscando = 1;
                             }
-
-                            //introduce el arreglo al array de registros
+                            Object[] nAO = new Object[dimension];
+                            for(int i = 0; i < dimension; i++){
+                                if(listaClaves.get(i).tipo == 1){
+                                    String formar = "";
+                                    if(temporal.get(i).toCharArray()[0]== '"' &&temporal.get(i).toCharArray()[temporal.get(i).toCharArray().length -1] =='"'){
+                                        for(int j = 1; j < temporal.get(i).toCharArray().length-1; j++){
+                                            formar = formar + temporal.get(i).toCharArray()[j];
+                                        }
+                                        nAO[i] = formar;
+                                    }else{
+                                        System.out.println("Error, se esperaba una cadena");
+                                    }
+                                }else if(listaClaves.get(i).tipo == 0){
+                                    if(temporal.get(i).matches("[+-]?\\d*(\\.\\d+)?") && temporal.get(i).equals("")==false){
+                                        nAO[i] = temporal.get(i);
+                                    }else{
+                                        System.out.println("Error, se esperaba un tipo de dato numerico");
+                                    }
+                                }
+                            }
+                            temporal.clear();
+                            listaRegistros.add(nAO);
                         }else{
-                            System.out.println("La dimension está mal");
+                            System.out.println("Error, el número de claves no concuerda con el registro");
                         }
                         temporal.clear();
                     :}
@@ -146,4 +177,3 @@ TIPO::=     NUMERICO:a
                 RESULT = b;
             :}
 ;
-
