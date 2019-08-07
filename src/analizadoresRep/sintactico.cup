@@ -169,14 +169,51 @@ INICIO::=   INICIO DECLARACION
 ;
 
 
-IMPRESION::= R_IMPRIMIR PARENTESISABRE LISTAEXPRESION PARENTESISCIERRA PUNTOCOMA
+IMPRESION::= R_IMPRIMIR PARENTESISABRE LISTAEXPRESION:a PARENTESISCIERRA PUNTOCOMA
 				{:
-
+						System.out.println("Lo que saldría en la consola es:\n" + a);
+						parser.cadenaImprimir = cadenaImpresion;
 				:}
 ;
 
 LISTAEXPRESION::=   LISTAEXPRESION:a COMA VALOR:b
+										{:
+											if(a != null && b != null){
+												switch(b.tipo){
+                					case 1:
+                						Double db = Double.parseDouble(b.valor.toString());
+                						RESULT = a + String.valueOf(db);
+                					break;
+                					case 2:
+                						RESULT = a + b.valor.toString();
+                					break;
+                					case 3:
+                						RESULT = null;
+                					break;
+                				}
+											}else{
+												System.out.println("nulo en Impresión");
+											}
+										:}
                 |   VALOR:a
+                		{: 
+                			if(a != null){
+                				switch(a.tipo){
+                					case 1:
+                						Double db = Double.parseDouble(a.valor.toString());
+                						RESULT = String.valueOf(db);
+                					break;
+                					case 2:
+                						RESULT = a.valor.toString();
+                					break;
+                					case 3:
+                						RESULT = "Aqui me falta el archivo";
+                					break;
+                				}
+                			}else{
+                				RESULT = null;
+                			}
+                		:}
 ;
 
 GRAFICA::= R_GRAFICAR PARENTESISABRE NOMBRE COMA NOMBRE COMA ID COMA NOMBRE COMA NOMBRE PARENTESISCIERRA PUNTOCOMA
@@ -186,7 +223,31 @@ NOMBRE::=   CADENA
         |   ID
 ;
 
-
+VALOR::=    NUMERO:a
+						{:
+								FuncionSubir fn = new FuncionSubir(1, a);
+								RESULT = fn;
+						:}
+        |   CADENA:a
+        		{:
+								FuncionSubir fn = new FuncionSubir(2, a.replace("\"", ""));
+								RESULT = fn;
+						:}
+        |   ID:a
+        		{:
+        				if(listaVariables.size() > 0){
+        					for(int i = 0; i < listaVariables.size(); i++){
+        						if(listaVariables.get(i).nombre.equals(a)){
+        							FuncionSubir fn = new FuncionSubir(listaVariables.get(i).tipo, listaVariables.get(i).valor);
+											RESULT = fn;
+        							break;
+        						}
+        					}	
+        				}else{
+        					RESULT = null;
+        				}
+						:}
+;
 
 
 
@@ -799,32 +860,6 @@ OP::=   MAYORQUE				{: RESULT = "1";:}
     |   MENORQUE IGUAL	{: RESULT = "4";:}
     |   IGUAL IGUAL			{: RESULT = "5";:}
     |   NOIGUAL IGUAL		{: RESULT = "6";:}
-;
-
-VALOR::=    NUMERO:a
-						{:
-								FuncionSubir fn = new FuncionSubir(1, a);
-								RESULT = fn;
-						:}
-        |   CADENA:a
-        		{:
-								FuncionSubir fn = new FuncionSubir(2, a.replace("\"", ""));
-								RESULT = fn;
-						:}
-        |   ID:a
-        		{:
-        				if(listaVariables.size() > 0){
-        					for(int i = 0; i < listaVariables.size(); i++){
-        						if(listaVariables.get(i).nombre.equals(a)){
-        							FuncionSubir fn = new FuncionSubir(listaVariables.get(i).tipo, listaVariables.get(i).valor);
-											RESULT = fn;
-        							break;
-        						}
-        					}	
-        				}else{
-        					RESULT = null;
-        				}
-						:}
 ;
 
 
