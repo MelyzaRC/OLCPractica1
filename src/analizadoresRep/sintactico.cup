@@ -130,10 +130,10 @@ terminal String CADENA, NUMERO, ID;
 //******************************************************************************
 //**                     Seccion de no terminales                             **
 //******************************************************************************
-nonterminal S,INICIO, DECLARACION, GRAFICA, NOMBRE;
+nonterminal S,INICIO, DECLARACION, GRAFICA;
 nonterminal String TIPO,RUTA, OP, IMPRESION, LISTAEXPRESION;
 nonterminal Archivo F_LEER;
-nonterminal FuncionSubir FUNCION, VALOR;
+nonterminal FuncionSubir FUNCION, VALOR, NOMBRE;
 nonterminal String F_SUMAR, F_CONTAR, F_PROMEDIO, F_CONTARSI;
 nonterminal String F_OBTENERSI;
 
@@ -216,11 +216,78 @@ LISTAEXPRESION::=   LISTAEXPRESION:a COMA VALOR:b
                 		:}
 ;
 
-GRAFICA::= R_GRAFICAR PARENTESISABRE NOMBRE COMA NOMBRE COMA ID COMA NOMBRE COMA NOMBRE PARENTESISCIERRA PUNTOCOMA
+GRAFICA::= R_GRAFICAR PARENTESISABRE NOMBRE:a COMA NOMBRE:b COMA ID:c COMA NOMBRE:d COMA NOMBRE:e PARENTESISCIERRA PUNTOCOMA
+					{:
+						if(a.tipo == 2 && !a.valor.toString().equals("")){//verificando el nombre 
+							if(b.tipo == 2 && !b.valor.toString().equals("")){//verificando el titulo
+								if(verificarVariable(c)){
+									for(int i = 0; i < listaVariables.size(); i++){
+    								if(listaVariables.get(i).nombre.equals(c)){
+    									if(listaVariables.get(i).tipo == 3){
+    										Archivo aRE = (Archivo) listaVariables.get(i).valor;
+    										ArrayList<Clave> cls = aRE.claves;
+    										if(d.tipo == 2 && !d.valor.toString().equals("")){
+    											if(verificarClave(cls, d.valor.toString())){
+    												/*****************************************************/
+    												if(e.tipo == 2 && !e.valor.toString().equals("")){
+    													if(verificarClave(cls, e.valor.toString())){
+    														System.out.println("Todo para la grafica está bien");
+    													}else{
+    														System.out.println("No existe la clave para valores y");
+    													}
+    												}else{
+    													System.out.println("Error en valores y");
+    												}
+    											/*****************************************************/
+    											}else{
+    												System.out.println("No existe la clave para valores x -> " + d.valor.toString());
+    											}
+    										}else{
+    											System.out.println("Error en valores x");
+    										}
+    									}else{
+    										System.out.println("La variable no es de tipo archivo");
+    									}
+    									break;
+    								}
+    							}
+								}else{
+									System.out.println("No existe la variable especificada");
+								}
+							}else{
+								System.out.println("Error en el titulo de la imagen");
+							}	
+						}else{
+							System.out.println("Error en el nombre de la imagen");
+						}
+					:}
 ;
 
-NOMBRE::=   CADENA
-        |   ID
+NOMBRE::=   CADENA:a
+						{:
+							if(!a.equals("")){
+								FuncionSubir fs = new FuncionSubir(2, a.replace("\"", ""));
+								RESULT = fs;
+							}else{
+								System.out.println("El titulo de la imagen no puede estar vacio");
+								RESULT = null;
+							}
+						:}
+        |   ID:a
+        		{:
+        			if(listaVariables.size() >0){
+        				for(int i = 0; i < listaVariables.size(); i++){
+        					if(listaVariables.get(i).nombre.equals(a)){
+        							FuncionSubir fs = new FuncionSubir(listaVariables.get(i).tipo, listaVariables.get(i).valor);
+        							RESULT = fs;
+        						break;
+        					}
+        				}
+        			}else{
+        				System.out.println("No existe la variable para el titulo");
+        				RESULT = null;
+        			}
+        		:}
 ;
 
 VALOR::=    NUMERO:a
