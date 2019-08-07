@@ -44,17 +44,17 @@ public class parserRep extends java_cup.runtime.lr_parser {
     unpackFromStrings(new String[] {
     "\000\047\000\002\002\004\000\002\002\003\000\002\003" +
     "\004\000\002\003\004\000\002\003\004\000\002\003\002" +
-    "\000\002\004\006\000\002\013\003\000\002\013\003\000" +
-    "\002\013\003\000\002\016\003\000\002\016\003\000\002" +
-    "\016\003\000\002\016\003\000\002\016\003\000\002\016" +
-    "\003\000\002\015\007\000\002\017\011\000\002\020\007" +
+    "\000\002\004\006\000\002\012\003\000\002\012\003\000" +
+    "\002\012\003\000\002\015\003\000\002\015\003\000\002" +
+    "\015\003\000\002\015\003\000\002\015\003\000\002\015" +
+    "\003\000\002\014\007\000\002\017\011\000\002\020\007" +
     "\000\002\021\011\000\002\022\015\000\002\023\015\000" +
-    "\002\014\003\000\002\014\003\000\002\005\003\000\002" +
+    "\002\013\003\000\002\013\003\000\002\005\003\000\002" +
     "\005\003\000\002\005\004\000\002\005\004\000\002\005" +
-    "\004\000\002\005\004\000\002\006\003\000\002\006\003" +
-    "\000\002\006\003\000\002\007\007\000\002\010\005\000" +
-    "\002\010\003\000\002\011\017\000\002\012\003\000\002" +
-    "\012\003" });
+    "\004\000\002\005\004\000\002\016\003\000\002\016\003" +
+    "\000\002\016\003\000\002\006\007\000\002\007\005\000" +
+    "\002\007\003\000\002\010\017\000\002\011\003\000\002" +
+    "\011\003" });
 
   /** Access to production table. */
   public short[][] production_table() {return _production_table;}
@@ -139,40 +139,40 @@ public class parserRep extends java_cup.runtime.lr_parser {
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
     "\000\146\000\006\002\003\003\004\001\001\000\002\001" +
-    "\001\000\012\004\005\007\013\011\007\013\012\001\001" +
+    "\001\000\012\004\005\006\013\010\007\012\012\001\001" +
     "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
     "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001\000\020\015\030\016\032\017\023\020\022\021\026" +
+    "\001\000\020\014\030\015\032\017\023\020\022\021\026" +
     "\022\020\023\031\001\001\000\002\001\001\000\002\001" +
     "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
     "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
     "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001\000\004\014\041\001\001\000\002\001\001\000\002" +
+    "\001\000\004\013\041\001\001\000\002\001\001\000\002" +
     "\001\001\000\002\001\001\000\004\005\044\001\001\000" +
     "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001\000\002\001\001\000\002\001\001\000\004\006\060" +
+    "\001\000\002\001\001\000\002\001\001\000\004\016\060" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
     "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
-    "\000\002\001\001\000\002\001\001\000\004\014\067\001" +
+    "\000\002\001\001\000\002\001\001\000\004\013\067\001" +
     "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
-    "\000\002\001\001\000\002\001\001\000\004\014\075\001" +
+    "\000\002\001\001\000\002\001\001\000\004\013\075\001" +
     "\001\000\002\001\001\000\004\005\077\001\001\000\002" +
-    "\001\001\000\004\006\101\001\001\000\002\001\001\000" +
-    "\002\001\001\000\002\001\001\000\004\014\105\001\001" +
+    "\001\001\000\004\016\101\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\004\013\105\001\001" +
     "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
-    "\002\001\001\000\002\001\001\000\004\014\113\001\001" +
+    "\002\001\001\000\002\001\001\000\004\013\113\001\001" +
     "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
     "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
-    "\001\001\000\004\012\124\001\001\000\002\001\001\000" +
-    "\002\001\001\000\002\001\001\000\004\012\127\001\001" +
+    "\001\001\000\004\011\124\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\004\011\127\001\001" +
     "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
-    "\004\012\133\001\001\000\002\001\001\000\004\012\135" +
+    "\004\011\133\001\001\000\002\001\001\000\004\011\135" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001\000\006\006\142\010\141\001\001\000\002\001\001" +
-    "\000\002\001\001\000\004\006\146\001\001\000\002\001" +
+    "\001\000\006\007\141\016\142\001\001\000\002\001\001" +
+    "\000\002\001\001\000\004\016\146\001\001\000\002\001" +
     "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
     "" });
 
@@ -284,6 +284,26 @@ class CUP$parserRep$actions {
     		}
     	}
     	return false;
+    }
+
+    public String crearSalida(ArrayList<Clave> claves, Object[] arreglo){
+    	String salida = "\t{";
+    	for(int i = 0; i < claves.size(); i++){
+    		Clave cl = claves.get(i);
+    		salida = salida + cl.nombre + ":";
+    		if(cl.tipo == 0){
+    			salida = salida + arreglo[i].toString();
+    		}else if(cl.tipo == 1){
+    			salida = salida + "\"" + arreglo[i].toString()+ "\" ";
+    		}
+
+    		if(i == claves.size()-1){
+    			salida = salida + "}\n";
+    		}else{
+    			salida = salida + ", ";
+    		}
+    	}
+    	return salida;
     }
 
   private final parserRep parser;
@@ -408,6 +428,15 @@ class CUP$parserRep$actions {
                             		System.out.println("No ha guardado una variable de tipo numerico porque está repetida");
                             	}
                         		break;
+                        	case 2:
+                        		Variable v3 = new Variable(Integer.parseInt(a), b, c.valor.toString());
+                            	if(!verificarVariable(b)){
+                               		listaVariables.add(v3);
+                               		System.out.println("Se ha guardado una variable de tipo cadena");
+                            	}else{
+                            		System.out.println("No ha guardado una variable de tipo cadena porque está repetida");
+                            	}
+                        		break;
                         }
                     }else{
                         System.out.println("Incorrecto tipos");
@@ -422,7 +451,7 @@ class CUP$parserRep$actions {
             {
               String RESULT =null;
 		 RESULT = "1"; 
-              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("TIPO",9, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
+              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("TIPO",8, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
           return CUP$parserRep$result;
 
@@ -431,7 +460,7 @@ class CUP$parserRep$actions {
             {
               String RESULT =null;
 		 RESULT = "2"; 
-              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("TIPO",9, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
+              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("TIPO",8, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
           return CUP$parserRep$result;
 
@@ -440,7 +469,7 @@ class CUP$parserRep$actions {
             {
               String RESULT =null;
 		 RESULT = "3"; 
-              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("TIPO",9, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
+              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("TIPO",8, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
           return CUP$parserRep$result;
 
@@ -455,7 +484,7 @@ class CUP$parserRep$actions {
                 FuncionSubir nL = new FuncionSubir(3, a);
                 RESULT = nL;
             
-              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("FUNCION",12, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
+              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("FUNCION",11, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
           return CUP$parserRep$result;
 
@@ -470,7 +499,7 @@ class CUP$parserRep$actions {
                 FuncionSubir nL = new FuncionSubir(1, a);
                 RESULT = nL;
             
-              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("FUNCION",12, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
+              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("FUNCION",11, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
           return CUP$parserRep$result;
 
@@ -485,7 +514,7 @@ class CUP$parserRep$actions {
                 FuncionSubir nL = new FuncionSubir(1, a);
                 RESULT = nL;
             
-              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("FUNCION",12, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
+              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("FUNCION",11, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
           return CUP$parserRep$result;
 
@@ -500,7 +529,7 @@ class CUP$parserRep$actions {
                 FuncionSubir nL = new FuncionSubir(1, a);
                 RESULT = nL;
             
-              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("FUNCION",12, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
+              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("FUNCION",11, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
           return CUP$parserRep$result;
 
@@ -508,8 +537,14 @@ class CUP$parserRep$actions {
           case 14: // FUNCION ::= F_CONTARSI 
             {
               FuncionSubir RESULT =null;
-
-              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("FUNCION",12, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
+		int aleft = ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()).right;
+		String a = (String)((java_cup.runtime.Symbol) CUP$parserRep$stack.peek()).value;
+		
+                FuncionSubir nL = new FuncionSubir(1, a);
+                RESULT = nL;
+            
+              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("FUNCION",11, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
           return CUP$parserRep$result;
 
@@ -517,8 +552,14 @@ class CUP$parserRep$actions {
           case 15: // FUNCION ::= F_OBTENERSI 
             {
               FuncionSubir RESULT =null;
-
-              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("FUNCION",12, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
+		int aleft = ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()).right;
+		String a = (String)((java_cup.runtime.Symbol) CUP$parserRep$stack.peek()).value;
+		
+                FuncionSubir nL = new FuncionSubir(2, a);
+                RESULT = nL;
+            
+              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("FUNCION",11, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
           return CUP$parserRep$result;
 
@@ -563,7 +604,7 @@ class CUP$parserRep$actions {
                 }
                 
             
-              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("F_LEER",11, ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-4)), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
+              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("F_LEER",10, ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-4)), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
           return CUP$parserRep$result;
 
@@ -709,7 +750,188 @@ class CUP$parserRep$actions {
           case 20: // F_CONTARSI ::= R_CONTARSI PARENTESISABRE ID COMA RUTA COMA OP COMA VALOR PARENTESISCIERRA PUNTOCOMA 
             {
               String RESULT =null;
-
+		int aleft = ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-8)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-8)).right;
+		String a = (String)((java_cup.runtime.Symbol) CUP$parserRep$stack.elementAt(CUP$parserRep$top-8)).value;
+		int bleft = ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-6)).left;
+		int bright = ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-6)).right;
+		String b = (String)((java_cup.runtime.Symbol) CUP$parserRep$stack.elementAt(CUP$parserRep$top-6)).value;
+		int cleft = ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-4)).left;
+		int cright = ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-4)).right;
+		Object c = (Object)((java_cup.runtime.Symbol) CUP$parserRep$stack.elementAt(CUP$parserRep$top-4)).value;
+		int dleft = ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-2)).left;
+		int dright = ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-2)).right;
+		FuncionSubir d = (FuncionSubir)((java_cup.runtime.Symbol) CUP$parserRep$stack.elementAt(CUP$parserRep$top-2)).value;
+		
+				int res = 0;
+				if(verificarVariable(a)){
+					for(int i = 0; i < listaVariables.size(); i++){
+						if(listaVariables.get(i).nombre.equals(a)){
+							if(listaVariables.get(i).tipo == 3){
+								Archivo ar = (Archivo) listaVariables.get(i).valor;
+								if(verificarClave(ar.claves, b)){
+									for(int j = 0; j < ar.claves.size(); j++){
+										if(ar.claves.get(j).nombre.equals(b)){
+											/********************************************************************/
+											//encontre la clave que buscaba 
+											int indice = j; 
+											int tipoClave = ar.claves.get(j).tipo;
+											int tipoOp = Integer.parseInt(c.toString());
+											FuncionSubir valorSubido = d;
+											if(valorSubido != null){
+												if(tipoClave == 0){ // es un numerico
+													switch(tipoOp){
+														case 1: //>
+															if(valorSubido.tipo == 1){//es numero
+																ArrayList<Object[]> listaR = ar.registros;
+																for(int h = 0; h < listaR.size(); h++){
+																	Double comparacion = Double.parseDouble(listaR.get(h)[indice].toString());
+																	Double valorSubidoComparacion = Double.parseDouble(valorSubido.valor.toString());
+																	if(comparacion > valorSubidoComparacion){
+																		res = res +1;
+																	}
+																}
+															}else if(valorSubido.tipo == 2){//es cadena
+																System.out.println("Error, No puede comparar numero > cadena");
+															}
+														break;
+														case 2: //<
+															if(valorSubido.tipo == 1){//es numero
+																ArrayList<Object[]> listaR = ar.registros;
+																for(int h = 0; h < listaR.size(); h++){
+																	Double comparacion = Double.parseDouble(listaR.get(h)[indice].toString());
+																	Double valorSubidoComparacion = Double.parseDouble(valorSubido.valor.toString());
+																	if(comparacion < valorSubidoComparacion){
+																		res = res +1;
+																	}
+																}
+															}else if(valorSubido.tipo == 2){//es cadena
+																System.out.println("Error, No puede comparar numero < cadena");
+															}
+														break;
+														case 3: //>=
+															if(valorSubido.tipo == 1){//es numero
+																ArrayList<Object[]> listaR = ar.registros;
+																for(int h = 0; h < listaR.size(); h++){
+																	Double comparacion = Double.parseDouble(listaR.get(h)[indice].toString());
+																	Double valorSubidoComparacion = Double.parseDouble(valorSubido.valor.toString());
+																	if(comparacion >= valorSubidoComparacion){
+																		res = res +1;
+																	}
+																}
+															}else if(valorSubido.tipo == 2){//es cadena
+																System.out.println("Error, No puede comparar numero >= cadena");
+															}
+														break;
+														case 4: //<=
+															if(valorSubido.tipo == 1){//es numero
+																ArrayList<Object[]> listaR = ar.registros;
+																for(int h = 0; h < listaR.size(); h++){
+																	Double comparacion = Double.parseDouble(listaR.get(h)[indice].toString());
+																	Double valorSubidoComparacion = Double.parseDouble(valorSubido.valor.toString());
+																	if(comparacion <= valorSubidoComparacion){
+																		res = res +1;
+																	}
+																}
+															}else if(valorSubido.tipo == 2){//es cadena
+																System.out.println("Error, No puede comparar numero <= cadena");
+															}
+														break;
+														case 5: //==
+															if(valorSubido.tipo == 1){//es numero
+																ArrayList<Object[]> listaR = ar.registros;
+																for(int h = 0; h < listaR.size(); h++){
+																	Double comparacion = Double.parseDouble(listaR.get(h)[indice].toString());
+																	Double valorSubidoComparacion = Double.parseDouble(valorSubido.valor.toString());
+																	System.out.println("comparando " + comparacion + " con "+ valorSubidoComparacion);
+																	if(String.valueOf(comparacion).equals(String.valueOf(valorSubidoComparacion))){
+																		res = res +1;
+																	}
+																}
+															}else if(valorSubido.tipo == 2){//es cadena
+																System.out.println("Error, No puede comparar numero == cadena");
+															}
+														break;
+														case 6: //!=
+															if(valorSubido.tipo == 1){//es numero
+																ArrayList<Object[]> listaR = ar.registros;
+																for(int h = 0; h < listaR.size(); h++){
+																	Double comparacion = Double.parseDouble(listaR.get(h)[indice].toString());
+																	Double valorSubidoComparacion = Double.parseDouble(valorSubido.valor.toString());
+																	if(!String.valueOf(comparacion).equals(String.valueOf(valorSubidoComparacion))){
+																		res = res +1;
+																	}
+																}
+															}else if(valorSubido.tipo == 2){//es cadena
+																System.out.println("Error, No puede comparar numero != cadena");
+															}
+														break;
+													}
+												}else if(tipoClave == 1){ // es de tipo cadena
+													switch(tipoOp){
+														case 1://>
+															System.out.println("Error, no se puede comparar > con cadenas");
+														break;
+														case 2://<
+															System.out.println("Error, no se puede comparar < con cadenas");
+														break;
+														case 3://>=
+															System.out.println("Error, no se puede comparar >= con cadenas");
+														break;
+														case 4://<=
+															System.out.println("Error, no se puede comparar <= con cadenas");
+														break;
+														case 5://==
+															if(valorSubido.tipo == 2){//es cadena
+																for(int h = 0; h < ar.registros.size(); h++){
+																	Object[] arreglo = ar.registros.get(h);
+																	System.out.println("Comparando " + arreglo[indice].toString()+" con " + valorSubido.valor.toString());
+																	if(arreglo[indice].toString().equals(valorSubido.valor.toString())){
+																		res = res + 1;
+																	}
+																}
+															}else{//es numero
+																System.out.println("Error, no se puede comparar cadena == numero");
+															}
+														break;
+														case 6://!=
+															if(valorSubido.tipo == 2){//es cadena
+																for(int h = 0; h < ar.registros.size(); h++){
+																	Object[] arreglo = ar.registros.get(h);
+																	System.out.println("Comparando " + arreglo[indice].toString()+" con " + valorSubido.valor.toString());
+																	if(!arreglo[indice].toString().equals(valorSubido.valor.toString())){
+																		res = res + 1;
+																	}
+																}
+															}else{//es numero
+																System.out.println("Error, no se puede comparar cadena == numero");
+															}
+														break;
+													}
+												}
+											}else{
+												System.out.println("Error, se subio un nulo a contarSi");
+											}
+											/********************************************************************/
+											System.out.println("Está en el metodo contar si");
+											break;
+										}
+									}
+								}else{
+									System.out.println("La clave buscada no existe");
+								}
+							}else{
+								System.out.println("La variable no es de tipo archivo");
+							}
+							break;
+						}
+					}
+				}else{
+					System.out.println("La variable " + a + " no existe");
+				}
+				System.out.println("Numero de registros que coinciden: " + res);
+				RESULT = String.valueOf(res);
+			
               CUP$parserRep$result = parser.getSymbolFactory().newSymbol("F_CONTARSI",16, ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-10)), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
           return CUP$parserRep$result;
@@ -718,7 +940,189 @@ class CUP$parserRep$actions {
           case 21: // F_OBTENERSI ::= R_OBTENERSI PARENTESISABRE ID COMA RUTA COMA OP COMA VALOR PARENTESISCIERRA PUNTOCOMA 
             {
               String RESULT =null;
-
+		int aleft = ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-8)).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-8)).right;
+		String a = (String)((java_cup.runtime.Symbol) CUP$parserRep$stack.elementAt(CUP$parserRep$top-8)).value;
+		int bleft = ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-6)).left;
+		int bright = ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-6)).right;
+		String b = (String)((java_cup.runtime.Symbol) CUP$parserRep$stack.elementAt(CUP$parserRep$top-6)).value;
+		int cleft = ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-4)).left;
+		int cright = ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-4)).right;
+		Object c = (Object)((java_cup.runtime.Symbol) CUP$parserRep$stack.elementAt(CUP$parserRep$top-4)).value;
+		int dleft = ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-2)).left;
+		int dright = ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-2)).right;
+		FuncionSubir d = (FuncionSubir)((java_cup.runtime.Symbol) CUP$parserRep$stack.elementAt(CUP$parserRep$top-2)).value;
+		
+				String res = "[\n";
+				if(verificarVariable(a)){
+					for(int i = 0; i < listaVariables.size(); i++){
+						if(listaVariables.get(i).nombre.equals(a)){
+							if(listaVariables.get(i).tipo == 3){
+								Archivo ar = (Archivo) listaVariables.get(i).valor;
+								if(verificarClave(ar.claves, b)){
+									for(int j = 0; j < ar.claves.size(); j++){
+										if(ar.claves.get(j).nombre.equals(b)){
+											/********************************************************************/
+											//encontre la clave que buscaba 
+											int indice = j; 
+											int tipoClave = ar.claves.get(j).tipo;
+											int tipoOp = Integer.parseInt(c.toString());
+											FuncionSubir valorSubido = d;
+											if(valorSubido != null){
+												if(tipoClave == 0){ // es un numerico
+													switch(tipoOp){
+														case 1: //>
+															if(valorSubido.tipo == 1){//es numero
+																ArrayList<Object[]> listaR = ar.registros;
+																for(int h = 0; h < listaR.size(); h++){
+																	Double comparacion = Double.parseDouble(listaR.get(h)[indice].toString());
+																	Double valorSubidoComparacion = Double.parseDouble(valorSubido.valor.toString());
+																	if(comparacion > valorSubidoComparacion){
+																		res = res + crearSalida(ar.claves, listaR.get(h));
+																	}
+																}
+															}else if(valorSubido.tipo == 2){//es cadena
+																System.out.println("Error, No puede comparar numero > cadena");
+															}
+														break;
+														case 2: //<
+															if(valorSubido.tipo == 1){//es numero
+																ArrayList<Object[]> listaR = ar.registros;
+																for(int h = 0; h < listaR.size(); h++){
+																	Double comparacion = Double.parseDouble(listaR.get(h)[indice].toString());
+																	Double valorSubidoComparacion = Double.parseDouble(valorSubido.valor.toString());
+																	if(comparacion < valorSubidoComparacion){
+																		res = res + crearSalida(ar.claves, listaR.get(h));
+																	}
+																}
+															}else if(valorSubido.tipo == 2){//es cadena
+																System.out.println("Error, No puede comparar numero < cadena");
+															}
+														break;
+														case 3: //>=
+															if(valorSubido.tipo == 1){//es numero
+																ArrayList<Object[]> listaR = ar.registros;
+																for(int h = 0; h < listaR.size(); h++){
+																	Double comparacion = Double.parseDouble(listaR.get(h)[indice].toString());
+																	Double valorSubidoComparacion = Double.parseDouble(valorSubido.valor.toString());
+																	if(comparacion >= valorSubidoComparacion){
+																		res = res + crearSalida(ar.claves, listaR.get(h));
+																	}
+																}
+															}else if(valorSubido.tipo == 2){//es cadena
+																System.out.println("Error, No puede comparar numero >= cadena");
+															}
+														break;
+														case 4: //<=
+															if(valorSubido.tipo == 1){//es numero
+																ArrayList<Object[]> listaR = ar.registros;
+																for(int h = 0; h < listaR.size(); h++){
+																	Double comparacion = Double.parseDouble(listaR.get(h)[indice].toString());
+																	Double valorSubidoComparacion = Double.parseDouble(valorSubido.valor.toString());
+																	if(comparacion <= valorSubidoComparacion){
+																		res = res + crearSalida(ar.claves, listaR.get(h));
+																	}
+																}
+															}else if(valorSubido.tipo == 2){//es cadena
+																System.out.println("Error, No puede comparar numero <= cadena");
+															}
+														break;
+														case 5: //==
+															if(valorSubido.tipo == 1){//es numero
+																ArrayList<Object[]> listaR = ar.registros;
+																for(int h = 0; h < listaR.size(); h++){
+																	Double comparacion = Double.parseDouble(listaR.get(h)[indice].toString());
+																	Double valorSubidoComparacion = Double.parseDouble(valorSubido.valor.toString());
+																	System.out.println("comparando " + comparacion + " con "+ valorSubidoComparacion);
+																	if(String.valueOf(comparacion).equals(String.valueOf(valorSubidoComparacion))){
+																		res = res + crearSalida(ar.claves, listaR.get(h));
+																	}
+																}
+															}else if(valorSubido.tipo == 2){//es cadena
+																System.out.println("Error, No puede comparar numero == cadena");
+															}
+														break;
+														case 6: //!=
+															if(valorSubido.tipo == 1){//es numero
+																ArrayList<Object[]> listaR = ar.registros;
+																for(int h = 0; h < listaR.size(); h++){
+																	Double comparacion = Double.parseDouble(listaR.get(h)[indice].toString());
+																	Double valorSubidoComparacion = Double.parseDouble(valorSubido.valor.toString());
+																	if(!String.valueOf(comparacion).equals(String.valueOf(valorSubidoComparacion))){
+																		res = res + crearSalida(ar.claves, listaR.get(h));
+																	}
+																}
+															}else if(valorSubido.tipo == 2){//es cadena
+																System.out.println("Error, No puede comparar numero != cadena");
+															}
+														break;
+													}
+												}else if(tipoClave == 1){ // es de tipo cadena
+													switch(tipoOp){
+														case 1://>
+															System.out.println("Error, no se puede comparar > con cadenas");
+														break;
+														case 2://<
+															System.out.println("Error, no se puede comparar < con cadenas");
+														break;
+														case 3://>=
+															System.out.println("Error, no se puede comparar >= con cadenas");
+														break;
+														case 4://<=
+															System.out.println("Error, no se puede comparar <= con cadenas");
+														break;
+														case 5://==
+															if(valorSubido.tipo == 2){//es cadena
+																for(int h = 0; h < ar.registros.size(); h++){
+																	Object[] arreglo = ar.registros.get(h);
+																	System.out.println("Comparando " + arreglo[indice].toString()+" con " + valorSubido.valor.toString());
+																	if(arreglo[indice].toString().equals(valorSubido.valor.toString())){
+																		//res = res + 1;
+																	}
+																}
+															}else{//es numero
+																System.out.println("Error, no se puede comparar cadena == numero");
+															}
+														break;
+														case 6://!=
+															if(valorSubido.tipo == 2){//es cadena
+																for(int h = 0; h < ar.registros.size(); h++){
+																	Object[] arreglo = ar.registros.get(h);
+																	System.out.println("Comparando " + arreglo[indice].toString()+" con " + valorSubido.valor.toString());
+																	if(!arreglo[indice].toString().equals(valorSubido.valor.toString())){
+																		//res = res + 1;
+																	}
+																}
+															}else{//es numero
+																System.out.println("Error, no se puede comparar cadena == numero");
+															}
+														break;
+													}
+												}
+											}else{
+												System.out.println("Error, se subio un nulo a contarSi");
+											}
+											/********************************************************************/
+											System.out.println("Está en el metodo contar si");
+											break;
+										}
+									}
+								}else{
+									System.out.println("La clave buscada no existe");
+								}
+							}else{
+								System.out.println("La variable no es de tipo archivo");
+							}
+							break;
+						}
+					}
+				}else{
+					System.out.println("La variable " + a + " no existe");
+				}
+				res = res + "]";
+				System.out.println("Resultado:\n" + res);
+				RESULT = res;
+			
               CUP$parserRep$result = parser.getSymbolFactory().newSymbol("F_OBTENERSI",17, ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-10)), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
           return CUP$parserRep$result;
@@ -728,7 +1132,7 @@ class CUP$parserRep$actions {
             {
               String RESULT =null;
 		 RESULT = "";
-              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("RUTA",10, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
+              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("RUTA",9, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
           return CUP$parserRep$result;
 
@@ -740,7 +1144,7 @@ class CUP$parserRep$actions {
 		int aright = ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()).right;
 		String a = (String)((java_cup.runtime.Symbol) CUP$parserRep$stack.peek()).value;
 		 RESULT = a.replace("\"","");
-              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("RUTA",10, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
+              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("RUTA",9, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
           return CUP$parserRep$result;
 
@@ -748,7 +1152,7 @@ class CUP$parserRep$actions {
           case 24: // OP ::= MAYORQUE 
             {
               Object RESULT =null;
-
+		 RESULT = "1";
               CUP$parserRep$result = parser.getSymbolFactory().newSymbol("OP",3, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
           return CUP$parserRep$result;
@@ -757,7 +1161,7 @@ class CUP$parserRep$actions {
           case 25: // OP ::= MENORQUE 
             {
               Object RESULT =null;
-
+		 RESULT = "2";
               CUP$parserRep$result = parser.getSymbolFactory().newSymbol("OP",3, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
           return CUP$parserRep$result;
@@ -766,7 +1170,7 @@ class CUP$parserRep$actions {
           case 26: // OP ::= MAYORQUE IGUAL 
             {
               Object RESULT =null;
-
+		 RESULT = "3";
               CUP$parserRep$result = parser.getSymbolFactory().newSymbol("OP",3, ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-1)), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
           return CUP$parserRep$result;
@@ -775,7 +1179,7 @@ class CUP$parserRep$actions {
           case 27: // OP ::= MENORQUE IGUAL 
             {
               Object RESULT =null;
-
+		 RESULT = "4";
               CUP$parserRep$result = parser.getSymbolFactory().newSymbol("OP",3, ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-1)), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
           return CUP$parserRep$result;
@@ -784,7 +1188,7 @@ class CUP$parserRep$actions {
           case 28: // OP ::= IGUAL IGUAL 
             {
               Object RESULT =null;
-
+		 RESULT = "5";
               CUP$parserRep$result = parser.getSymbolFactory().newSymbol("OP",3, ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-1)), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
           return CUP$parserRep$result;
@@ -793,7 +1197,7 @@ class CUP$parserRep$actions {
           case 29: // OP ::= NOIGUAL IGUAL 
             {
               Object RESULT =null;
-
+		 RESULT = "6";
               CUP$parserRep$result = parser.getSymbolFactory().newSymbol("OP",3, ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-1)), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
           return CUP$parserRep$result;
@@ -801,27 +1205,45 @@ class CUP$parserRep$actions {
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 30: // VALOR ::= NUMERO 
             {
-              Object RESULT =null;
-
-              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("VALOR",4, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
+              FuncionSubir RESULT =null;
+		int aleft = ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()).right;
+		String a = (String)((java_cup.runtime.Symbol) CUP$parserRep$stack.peek()).value;
+		
+								FuncionSubir fn = new FuncionSubir(1, a);
+								RESULT = fn;
+						
+              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("VALOR",12, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
           return CUP$parserRep$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 31: // VALOR ::= CADENA 
             {
-              Object RESULT =null;
-
-              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("VALOR",4, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
+              FuncionSubir RESULT =null;
+		int aleft = ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()).right;
+		String a = (String)((java_cup.runtime.Symbol) CUP$parserRep$stack.peek()).value;
+		
+								FuncionSubir fn = new FuncionSubir(2, a.replace("\"", ""));
+								RESULT = fn;
+						
+              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("VALOR",12, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
           return CUP$parserRep$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
           case 32: // VALOR ::= ID 
             {
-              Object RESULT =null;
-
-              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("VALOR",4, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
+              FuncionSubir RESULT =null;
+		int aleft = ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()).left;
+		int aright = ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()).right;
+		String a = (String)((java_cup.runtime.Symbol) CUP$parserRep$stack.peek()).value;
+		
+								FuncionSubir fn = new FuncionSubir(1, "");
+								RESULT = fn;
+						
+              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("VALOR",12, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
           return CUP$parserRep$result;
 
@@ -830,7 +1252,7 @@ class CUP$parserRep$actions {
             {
               Object RESULT =null;
 
-              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("IMPRESION",5, ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-4)), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
+              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("IMPRESION",4, ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-4)), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
           return CUP$parserRep$result;
 
@@ -839,7 +1261,7 @@ class CUP$parserRep$actions {
             {
               Object RESULT =null;
 
-              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("LISTAEXPRESION",6, ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-2)), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
+              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("LISTAEXPRESION",5, ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-2)), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
           return CUP$parserRep$result;
 
@@ -848,7 +1270,7 @@ class CUP$parserRep$actions {
             {
               Object RESULT =null;
 
-              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("LISTAEXPRESION",6, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
+              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("LISTAEXPRESION",5, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
           return CUP$parserRep$result;
 
@@ -857,7 +1279,7 @@ class CUP$parserRep$actions {
             {
               Object RESULT =null;
 
-              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("GRAFICA",7, ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-12)), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
+              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("GRAFICA",6, ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-12)), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
           return CUP$parserRep$result;
 
@@ -866,7 +1288,7 @@ class CUP$parserRep$actions {
             {
               Object RESULT =null;
 
-              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("NOMBRE",8, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
+              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("NOMBRE",7, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
           return CUP$parserRep$result;
 
@@ -875,7 +1297,7 @@ class CUP$parserRep$actions {
             {
               Object RESULT =null;
 
-              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("NOMBRE",8, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
+              CUP$parserRep$result = parser.getSymbolFactory().newSymbol("NOMBRE",7, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
           return CUP$parserRep$result;
 
