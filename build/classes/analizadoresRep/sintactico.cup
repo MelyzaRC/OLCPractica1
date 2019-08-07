@@ -4,7 +4,6 @@
 package analizadoresRep;
 
 
-
 //******************************************************************************
 //**                       Importar librería                                  **
 //******************************************************************************
@@ -25,6 +24,7 @@ import java.util.ArrayList;
 parser code
 {:
 	//Codigo visible
+		public String cadenaImprimir = "";
 
     public int er = 0;
     public int enr = 0;
@@ -44,6 +44,8 @@ parser code
 action code
 {:
     //Codigo de acciones
+
+		public String cadenaImpresion = "";
 
     public ArrayList<Variable> listaVariables = new ArrayList<Variable>();
 
@@ -113,6 +115,7 @@ action code
     	}
     	return salida;
     }
+
 :}
 
 
@@ -127,8 +130,8 @@ terminal String CADENA, NUMERO, ID;
 //******************************************************************************
 //**                     Seccion de no terminales                             **
 //******************************************************************************
-nonterminal S,INICIO, DECLARACION, OP, IMPRESION, LISTAEXPRESION, GRAFICA, NOMBRE;
-nonterminal String TIPO,RUTA;
+nonterminal S,INICIO, DECLARACION, GRAFICA, NOMBRE;
+nonterminal String TIPO,RUTA, OP, IMPRESION, LISTAEXPRESION;
 nonterminal Archivo F_LEER;
 nonterminal FuncionSubir FUNCION, VALOR;
 nonterminal String F_SUMAR, F_CONTAR, F_PROMEDIO, F_CONTARSI;
@@ -164,6 +167,38 @@ INICIO::=   INICIO DECLARACION
             :}
             |
 ;
+
+
+IMPRESION::= R_IMPRIMIR PARENTESISABRE LISTAEXPRESION PARENTESISCIERRA PUNTOCOMA
+				{:
+
+				:}
+;
+
+LISTAEXPRESION::=   LISTAEXPRESION:a COMA VALOR:b
+                |   VALOR:a
+;
+
+GRAFICA::= R_GRAFICAR PARENTESISABRE NOMBRE COMA NOMBRE COMA ID COMA NOMBRE COMA NOMBRE PARENTESISCIERRA PUNTOCOMA
+;
+
+NOMBRE::=   CADENA
+        |   ID
+;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 DECLARACION::=  TIPO:a ID:b IGUAL FUNCION:c
                 {:
@@ -689,7 +724,7 @@ F_OBTENERSI::= R_OBTENERSI PARENTESISABRE ID:a COMA RUTA:b COMA OP:c COMA VALOR:
 																	Object[] arreglo = ar.registros.get(h);
 																	System.out.println("Comparando " + arreglo[indice].toString()+" con " + valorSubido.valor.toString());
 																	if(arreglo[indice].toString().equals(valorSubido.valor.toString())){
-																		//res = res + 1;
+																		res = res + crearSalida(ar.claves, arreglo);
 																	}
 																}
 															}else{//es numero
@@ -702,7 +737,7 @@ F_OBTENERSI::= R_OBTENERSI PARENTESISABRE ID:a COMA RUTA:b COMA OP:c COMA VALOR:
 																	Object[] arreglo = ar.registros.get(h);
 																	System.out.println("Comparando " + arreglo[indice].toString()+" con " + valorSubido.valor.toString());
 																	if(!arreglo[indice].toString().equals(valorSubido.valor.toString())){
-																		//res = res + 1;
+																		res = res + crearSalida(ar.claves, arreglo);
 																	}
 																}
 															}else{//es numero
@@ -737,8 +772,23 @@ F_OBTENERSI::= R_OBTENERSI PARENTESISABRE ID:a COMA RUTA:b COMA OP:c COMA VALOR:
 			:}
 ;
 
-RUTA::= ID
-        {: RESULT = "";:}
+RUTA::= ID:a
+        {: 
+        				if(listaVariables.size() > 0){
+        					for(int i = 0; i < listaVariables.size(); i++){
+        						if(listaVariables.get(i).nombre.equals(a)){
+        							if(listaVariables.get(i).tipo == 1){
+        								RESULT = listaVariables.get(i).valor.toString();
+        							}else{
+        								System.out.println("Devuelve un dato que no es cadena");
+        							}
+        							break;
+        						}
+        					}	
+        				}else{
+        					RESULT = null;
+        				}
+        :}
     |   CADENA:a
         {: RESULT = a.replace("\"","");:}
 ;
@@ -763,24 +813,20 @@ VALOR::=    NUMERO:a
 						:}
         |   ID:a
         		{:
-								FuncionSubir fn = new FuncionSubir(1, "");
-								RESULT = fn;
+        				if(listaVariables.size() > 0){
+        					for(int i = 0; i < listaVariables.size(); i++){
+        						if(listaVariables.get(i).nombre.equals(a)){
+        							FuncionSubir fn = new FuncionSubir(listaVariables.get(i).tipo, listaVariables.get(i).valor);
+											RESULT = fn;
+        							break;
+        						}
+        					}	
+        				}else{
+        					RESULT = null;
+        				}
 						:}
 ;
 
-IMPRESION::= R_IMPRIMIR PARENTESISABRE LISTAEXPRESION PARENTESISCIERRA PUNTOCOMA
-;
-
-LISTAEXPRESION::=   LISTAEXPRESION COMA VALOR
-                |   VALOR
-;
-
-GRAFICA::= R_GRAFICAR PARENTESISABRE NOMBRE COMA NOMBRE COMA ID COMA NOMBRE COMA NOMBRE PARENTESISCIERRA PUNTOCOMA
-;
-
-NOMBRE::=   CADENA
-        |   ID
-;
 
 
 /*
