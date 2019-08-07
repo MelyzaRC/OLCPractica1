@@ -81,7 +81,7 @@ public class parser extends java_cup.runtime.lr_parser {
   public short[][] reduce_table() {return _reduce_table;}
 
   /** Instance of action encapsulation class. */
-  public CUP$parser$actions action_obj;
+  protected CUP$parser$actions action_obj;
 
   /** Action encapsulation object initializer. */
   protected void init_actions()
@@ -115,35 +115,33 @@ public class parser extends java_cup.runtime.lr_parser {
 
 
     //Codigo visible
-
     public int er = 0;
     public int enr = 0;
 
+    public ArrayList<Clave> listaC;
+    public ArrayList<Object[]> listaR;
     public void syntax_error(Symbol s){
         System.out.println("Error R de sintaxis: "+ s.value +" Linea "+(s.left+1)+" columna "+(s.right+1) );
         er = er+1;
     }
-
     public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
         System.out.println("Error NR de sintaxis: "+ s.value +" Linea "+(s.left+1)+" columna "+(s.right+1) );
         enr = enr +1;
     }
 
 
-
 /** Cup generated class to encapsulate user supplied action code.*/
 @SuppressWarnings({"rawtypes", "unchecked", "unused"})
-public class CUP$parser$actions {
+class CUP$parser$actions {
 
-//Codigo de acciones
 
+    //Codigo de acciones
     public String algo = "";
-    public ArrayList<Clave> listaClaves = new ArrayList<Clave>();
     public int dimension = 0;
+    public int buscando = 0;
+    public ArrayList<Clave> listaClaves = new ArrayList<Clave>();
     public ArrayList<Object[]> listaRegistros = new ArrayList<Object[]>();
     public ArrayList<String> temporal = new ArrayList<String>();
-    public int buscando = 0;
-
 
   private final parser parser;
 
@@ -194,6 +192,8 @@ public class CUP$parser$actions {
             {
               Object RESULT =null;
 		
+                parser.listaC = listaClaves;
+                parser.listaR = listaRegistros;
                 String imprimir = "Fin del análisis";
                 System.out.println(imprimir);
             

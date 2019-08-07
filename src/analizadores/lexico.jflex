@@ -8,7 +8,7 @@ package analizadores;
 //**                       Importar librería                                  **
 //******************************************************************************
 
-import java_cup.runtime.Symbol;
+import java_cup.runtime.*;
 
 //Scanner
 //Descripción del proyecto
@@ -17,7 +17,6 @@ import java_cup.runtime.Symbol;
 %{
 //Codigo de usuario
 String cadena = "";
-String comentario = "";
 %}
 
 %cup
@@ -28,7 +27,8 @@ String comentario = "";
 %column
 %full
 %state CADENA
-%ignorecase
+%ignorecase 
+
 
 //Token = "lexema" ó expresión regular
 R_CLAVES = "claves"
@@ -38,7 +38,7 @@ CORCHETECIERRA = "]"
 IGUAL = "="
 SPACE   = [\ \r\t\f\t]
 ENTER   = [\ \n]
-NUMERICO  = [0-9]+
+NUMERICO  = [+-]?[0-9]+([.][0-9]+)?
 COMA = ","
 LLAVEABRE = "{"
 LLAVECIERRA = "}"
