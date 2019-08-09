@@ -1,0 +1,46 @@
+/*
+Archivo de entrada
+Compi 1
+Practica1
+*/
+
+
+//declaracion de claves
+
+claves=[
+	
+"Correlativo",
+	
+"Nombre",
+	
+"Apellido",
+	
+"Edad"
+]
+
+
+
+//declaracionde registros
+
+registros=[
+	
+{100, "E", "Aguilar",23}
+	
+{200, "M", "Rodriguez",23}
+	
+{300, "D", "Hernandez",24}
+	
+{400, "J", "Lopez",24}
+	
+{500, "R", "Dominguez",26}
+	
+//{-1, "Timmy", "Turner",10}
+	
+//{-2, "Trixxie", "Tan",10}
+	
+//{-3, "Edgar", "Gonzalez",34}
+	
+//{-4, "Diego", "Velasquez",23}
+
+
+]

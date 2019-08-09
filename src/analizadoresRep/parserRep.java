@@ -17,6 +17,17 @@ import analizadores.parser;
 import analizadores.scanner;
 import java.io.StringReader;
 import java.util.ArrayList;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.ChartRenderingInfo;
+import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.entity.StandardEntityCollection;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.entity.StandardEntityCollection;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20150930 (SVN rev 66) generated parser.
@@ -263,7 +274,7 @@ class CUP$parserRep$actions {
                     fr.close();
                 }
             } catch (Exception e2) {
-                e2.printStackTrace();
+                //e2.printStackTrace();
             }
         }
         return ret;
@@ -309,6 +320,28 @@ class CUP$parserRep$actions {
     	return salida;
     }
 
+    public int numeroClave(ArrayList<Clave> claves, String nombre){
+    	if(claves.size() >0){
+    		for(int i = 0; i < claves.size(); i++){
+    			if(claves.get(i).nombre.equals(nombre)){
+    				return i;
+    			}
+    		}
+    	}
+    	return 0;
+    }
+
+    public int tipoClave(ArrayList<Clave> claves, String nombre){
+    	if(claves.size() >0){
+    		for(int i = 0; i < claves.size(); i++){
+    			if(claves.get(i).nombre.equals(nombre)){
+    				return claves.get(i).tipo;
+    			}
+    		}
+    	}
+    	return -1;
+    }
+
 
   private final parserRep parser;
 
@@ -349,7 +382,9 @@ class CUP$parserRep$actions {
           case 1: // S ::= INICIO 
             {
               Object RESULT =null;
-
+		
+        parser.cadenaImprimir = cadenaImpresion;
+    
               CUP$parserRep$result = parser.getSymbolFactory().newSymbol("S",0, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
           return CUP$parserRep$result;
@@ -405,7 +440,7 @@ class CUP$parserRep$actions {
 		String a = (String)((java_cup.runtime.Symbol) CUP$parserRep$stack.elementAt(CUP$parserRep$top-2)).value;
 		
 						System.out.println("Lo que saldría en la consola es:\n" + a);
-						parser.cadenaImprimir = cadenaImpresion;
+						cadenaImpresion = cadenaImpresion + "\n" +a ;
 				
               CUP$parserRep$result = parser.getSymbolFactory().newSymbol("IMPRESION",7, ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-4)), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
@@ -461,7 +496,22 @@ class CUP$parserRep$actions {
                 						RESULT = a.valor.toString();
                 					break;
                 					case 3:
-                						RESULT = "Aqui me falta el archivo";
+                						//retornar archivo como claves y numero de registro
+                						if(a != null){
+                							Archivo retArchivo = (Archivo) a.valor;
+                						String cadenaArchivo = "Claves[";
+                						for(int i = 0; i < retArchivo.claves.size(); i++){
+                							cadenaArchivo = cadenaArchivo + "\"" + retArchivo.claves.get(i).nombre + "\"";
+                							if(i == retArchivo.claves.size()-1){
+                								cadenaArchivo = cadenaArchivo;
+                							}else{
+                								cadenaArchivo = cadenaArchivo + ",";
+                							}
+                						}
+                						cadenaArchivo = cadenaArchivo + "]\nNúmero de registros: ";
+                						cadenaArchivo = cadenaArchivo + String.valueOf(retArchivo.registros.size());
+                						RESULT = cadenaArchivo;
+                						}
                 					break;
                 				}
                 			}else{
@@ -505,7 +555,43 @@ class CUP$parserRep$actions {
     												/*****************************************************/
     												if(e.tipo == 2 && !e.valor.toString().equals("")){
     													if(verificarClave(cls, e.valor.toString())){
-    														System.out.println("Todo para la grafica está bien");
+    														if(tipoClave(cls, e.valor.toString())== 0){
+    															System.out.println("Todo para la grafica está bien");
+    														int indiceX = numeroClave(cls, e.valor.toString());
+    														int indiceY = numeroClave(cls, d.valor.toString());
+    														ArrayList<Object[]> datos = aRE.registros;
+    														System.out.println("Indice x: " + indiceX + "  Indice y: " + indiceY);
+    														try{
+    															DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+    														if(datos.size() > 0 ){
+    															for(int tmp = 0; tmp < datos.size(); tmp++){
+    																Object[] tmpArreglo = datos.get(tmp);
+    																Double ejeX = Double.parseDouble(tmpArreglo[indiceX].toString());
+    																String ejeY = tmpArreglo[indiceY].toString();
+    																dataset.setValue(ejeX, ejeY,ejeY);
+    															}
+    																JFreeChart chart = ChartFactory.createBarChart(
+                											b.valor.toString(),
+                											d.valor.toString(), 
+                											e.valor.toString(), 
+                											dataset, 
+                											PlotOrientation.VERTICAL,
+               												true, 
+                											false, 
+                											false
+        														);
+        														final ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
+            												final File file1 = new File("entradas/" + a.valor.toString() + ".jpg");
+            												ChartUtilities.saveChartAsJPEG(file1, chart, 1300, 600, info);
+    															}else{
+    																System.out.println("No se han encontrado datos, la grafica no se creará");
+    															}
+    														}catch (Exception ex) {
+    															System.out.println("No se ha podido generar la imagen");
+        												}
+    														}else{
+    															System.out.println("Se debe tener una clave numerica ");
+    														}
     													}else{
     														System.out.println("No existe la clave para valores y");
     													}
@@ -627,7 +713,6 @@ class CUP$parserRep$actions {
         						if(listaVariables.get(i).nombre.equals(a)){
         							FuncionSubir fn = new FuncionSubir(listaVariables.get(i).tipo, listaVariables.get(i).valor);
 											RESULT = fn;
-        							break;
         						}
         					}	
         				}else{

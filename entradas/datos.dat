@@ -30,17 +30,17 @@ registros=[
 	
 {3, "Dylan", "Hernandez",24}
 	
-//{4, "Juan", "Lopez",24}
+{4, "Juan", "Lopez",24}
 	
-//{5, "Rafael", "Dominguez",26}
+{5, "Rafael", "Dominguez",26}
 	
 //{-1, "Timmy", "Turner",10}
 	
-//{2, "Trixxie", "Tan",10}
+//{-2, "Trixxie", "Tan",10}
 	
-//{-892, "Edgar", "Gonzalez",34}
+//{-3, "Edgar", "Gonzalez",34}
 	
-//{9.345, "Diego", "Velasquez",23}
+//{-4, "Diego", "Velasquez",23}
 
 
 ]

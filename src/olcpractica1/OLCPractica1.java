@@ -7,6 +7,7 @@
  */
 package olcpractica1;
 
+
 public class OLCPractica1 {
 
     public static void main(String[] args) {
