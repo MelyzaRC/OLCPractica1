@@ -470,19 +470,20 @@ public class Pantalla extends javax.swing.JFrame {
             parser.parse();
             if (parser.enr == 0) {//quiere decir que no tuvo errores no recuperables o sea que si puede hacer el reporte
                 if (parser.er != 0) {
-                    JOptionPane.showMessageDialog(null, "Se han detectado errores, los mismos se han omitido.");
+                    mensaje("Se han detectado errores r");
                 } else {
-                    JOptionPane.showMessageDialog(null, "Se completó el análisis");
+                    mensaje("Análisis realizado");
                     jTextArea1.setText(parser.cadenaImprimir);
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Se han detectado errores, no se ha podido recuperar.");
+                mensaje("Se han detectado errores nr");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }//GEN-LAST:event_btn_cargarArchivoActionPerformed
 
+    //llamar pantalla edicion
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
 
     }//GEN-LAST:event_jMenuItem1ActionPerformed
@@ -517,9 +518,9 @@ public class Pantalla extends javax.swing.JFrame {
                 scroll = (JScrollPane) jTabbedPane1.getSelectedComponent();
                 txtArea = (JTextArea) scroll.getViewport().getComponent(0);
                 txtArea.setText(aux2);
-                jTabbedPane1.setTitleAt(jTabbedPane1.getSelectedIndex(), archivo.getName());//Solo jalo el nombre del archivo
-                jTabbedPane1.getSelectedComponent().setName(archivo.getAbsolutePath());//Guardo toda la ruta donde está el archivo
 
+                jTabbedPane1.setTitleAt(jTabbedPane1.getSelectedIndex(), archivo.getName());//Solo jalo el nombre del archivo
+                jTabbedPane1.getSelectedComponent().setName(archivo.getPath());//Guardo toda la ruta donde está el archivo
             }
         } catch (HeadlessException | IOException e) {
             JOptionPane.showMessageDialog(null, "Existió un error al cargar el archivo", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
@@ -529,18 +530,24 @@ public class Pantalla extends javax.swing.JFrame {
     //guardar como
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         try {
-            fileChooser.showOpenDialog(this);
-            archivo = fileChooser.getSelectedFile();
-            if (archivo != null) {
-                fileWriter = new FileWriter(archivo + ".txt");
-                scroll = (JScrollPane) jTabbedPane1.getSelectedComponent();
-                txtArea = (JTextArea) scroll.getViewport().getComponent(0);
-                fileWriter.write(txtArea.getText());
-                fileWriter.close();
-                JOptionPane.showMessageDialog(null, "Archivo guardado exitosamente", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
+            if (jTabbedPane1.getSelectedComponent().getName() != null) {
+                fileChooser.showOpenDialog(this);
+                archivo = fileChooser.getSelectedFile();
+                if (archivo != null) {
+                    fileWriter = new FileWriter(archivo + ".rep");
+                    scroll = (JScrollPane) jTabbedPane1.getSelectedComponent();
+                    txtArea = (JTextArea) scroll.getViewport().getComponent(0);
+                    fileWriter.write(txtArea.getText());
+                    fileWriter.close();
+                    jTabbedPane1.setTitleAt(jTabbedPane1.getSelectedIndex(), archivo.getName());//Solo jalo el nombre del archivo
+                    jTabbedPane1.getSelectedComponent().setName(archivo.getPath());
+                    mensaje("Archivo guardado exitosamente");
+                }
+            }else{
+                mensaje("Ha ocurrido un error");
             }
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Existió un error al guardar el archivo", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+            mensaje("No se ha podido guardar el archivo");
         }
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -553,7 +560,25 @@ public class Pantalla extends javax.swing.JFrame {
 
     //guardar
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-
+        try {
+            if (jTabbedPane1.getSelectedComponent().getName() == null) {
+                mensaje("Utilice el botón \"GUARDAR COMO\"");
+            } else {
+                archivo = new File(jTabbedPane1.getSelectedComponent().getName());
+                if (archivo != null) {
+                    fileWriter = new FileWriter(archivo);
+                    scroll = (JScrollPane) jTabbedPane1.getSelectedComponent();
+                    txtArea = (JTextArea) scroll.getViewport().getComponent(0);
+                    fileWriter.write(txtArea.getText());
+                    fileWriter.close();
+                    jTabbedPane1.setTitleAt(jTabbedPane1.getSelectedIndex(), archivo.getName());//Solo jalo el nombre del archivo
+                    jTabbedPane1.getSelectedComponent().setName(archivo.getPath());
+                    mensaje("Archivo guardado exitosamente");
+                }
+            }
+        } catch (IOException e) {
+            mensaje("No se ha podido guardar el archivo");
+        }
     }//GEN-LAST:event_jButton6ActionPerformed
 
     //salir
@@ -568,31 +593,7 @@ public class Pantalla extends javax.swing.JFrame {
 
     //imagenes
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        try {
-            DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-            
-            dataset.setValue(1,"hola", "hola");
-            JFreeChart chart = ChartFactory.createBarChart(
-                    "hola",
-                    "hola1",
-                    "hola2",
-                    dataset,
-                    PlotOrientation.VERTICAL,
-                    true,
-                    false,
-                    false
-            );
-            
-            //ChartFrame frame = new ChartFrame("titulo", chart);
-            //frame.pack();
-            //frame.setVisible(true);
-            final ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
-            final File file1 = new File("entradas/Char.jpg");
-            ChartUtilities.saveChartAsJPEG(file1, chart, 600, 600, info);
-        } catch (Exception ex) {
-            Logger.getLogger(Pantalla.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+
     }//GEN-LAST:event_jButton9ActionPerformed
 
     //acerca de
