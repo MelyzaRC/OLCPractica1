@@ -9,6 +9,8 @@ package analizadores;
 //******************************************************************************
 
 import java_cup.runtime.*;
+import almacenamiento.Errores;
+import java.util.ArrayList;
 
 //Scanner
 //Descripción del proyecto
@@ -17,6 +19,8 @@ import java_cup.runtime.*;
 %{
 //Codigo de usuario
 String cadena = "";
+public ArrayList<Errores> listaErrores = new ArrayList<Errores>();
+public String archivoActual = "";
 %}
 
 %cup
@@ -63,8 +67,10 @@ COMENTARIOM ="/*""/"*([^*/]|[^*]"/"|"*"[^/])*"*"*"*/"
 <YYINITIAL> {COMENTARIOM}       { /*Comentario ignorado*/ }
 
 <YYINITIAL> . {
-        String errLex = "Error léxico : '"+yytext()+"' en la línea: "+(yyline+1)+" y columna: "+(yycolumn+1);
-        System.out.println(errLex);
+        //String errLex = "Error léxico : '"+yytext()+"' en la línea: "+(yyline+1)+" y columna: "+(yycolumn+1);
+        //System.out.println(errLex);
+        Errores nuevoError = new Errores(yyline+1, yycolumn+1, 1, "El caracter " + yytext() + " no pertenece al lenguaje", "","", archivoActual);
+        listaErrores.add(nuevoError);
 }
 
 <CADENA> {
@@ -73,7 +79,9 @@ COMENTARIOM ="/*""/"*([^*/]|[^*]"/"|"*"[^/])*"*"*"*/"
                 }
         [\n]    {
                     String tmp=cadena; cadena="";  
-                    System.out.println("Se esperaba cierre de cadena (\")."); 
+                    System.out.println("Se esperaba cierre de cadena (\").");
+                    Errores nuevoError = new Errores(yyline+1, yycolumn+1, 1, "Se esperaba cierre de cadena [\"]", "","", archivoActual);
+        			listaErrores.add(nuevoError); 
                     yybegin(YYINITIAL);
                 }
         [^\"]   {

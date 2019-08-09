@@ -32,23 +32,32 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
+import almacenamiento.Errores;
+
 //PARSER 
 parser code
 {:
 	//Codigo visible
-		public String cadenaImprimir = "";
+    public String cadenaImprimir = "";
+
+    public String archivoActual = "";
+    public ArrayList<Errores> listaErrores = new ArrayList<Errores>();
 
     public int er = 0;
     public int enr = 0;
 
     public void syntax_error(Symbol s){
-        System.out.println("Error R de sintaxis: "+ s.value +" Linea "+(s.left+1)+" columna "+(s.right+1) );
+        //System.out.println("Error R de sintaxis: "+ s.value +" Linea "+(s.left+1)+" columna "+(s.right+1) );
         er = er+1;
+        Errores nuevoError = new Errores((s.left+1), (s.right+1), 2,s.value.toString(), "","", archivoActual);
+        listaErrores.add(nuevoError);
     }
 
     public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
-        System.out.println("Error NR de sintaxis: "+ s.value +" Linea "+(s.left+1)+" columna "+(s.right+1) );
+        //System.out.println("Error NR de sintaxis: "+ s.value +" Linea "+(s.left+1)+" columna "+(s.right+1) );
         enr = enr +1;
+        Errores nuevoError = new Errores((s.left+1), (s.right+1), 3,s.value.toString(), "","", archivoActual);
+        listaErrores.add(nuevoError);
     }
 
 :}
@@ -503,15 +512,19 @@ F_LEER::=    R_LEERARCHIVO PARENTESISABRE RUTA:a PARENTESISCIERRA PUNTOCOMA
                 if(texto != ""){
                     try {
                         scanner scan = new scanner(new BufferedReader(new StringReader(texto)));
-                        parser parser = new parser(scan);
+                        scan.listaErrores = parser.listaErrores;
+                        scan.archivoActual = a;
+                        parser parser1 = new parser(scan);
+                        parser1.listaErrores = parser.listaErrores;
+                        parser1.archivoActual = a;
                         parser.parse();
-                        if (parser.enr == 0) {//quiere decir que no tuvo errores no recuperables o sea que si puede hacer el reporte
-                            if (parser.er != 0) {
+                        if (parser1.enr == 0) {//quiere decir que no tuvo errores no recuperables o sea que si puede hacer el reporte
+                            if (parser1.er != 0) {
                                 System.out.println("Se han detectado errores, los mismos se han omitido.");
                             } else {
                                 System.out.println("Se completó el análisis");
-                                rAr.claves = parser.listaC;
-                                rAr.registros = parser.listaR;
+                                rAr.claves = parser1.listaC;
+                                rAr.registros = parser1.listaR;
                             }
                         } else {
                             System.out.println("Se han detectado errores, no se ha podido recuperar.");

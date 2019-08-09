@@ -5,6 +5,7 @@ package olcpractica1;
 
 //import analizadores.parser;
 //import analizadores.scanner;
+import almacenamiento.Errores;
 import analizadoresRep.parserRep;
 import analizadoresRep.scannerRep;
 import java.awt.Color;
@@ -21,6 +22,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -58,6 +60,7 @@ public class Pantalla extends javax.swing.JFrame {
     JFileChooser fileChooser = new JFileChooser();
     FileWriter fileWriter;
     String aux, aux2;
+    public ArrayList<Errores> listaErrores = new ArrayList<Errores>();
 
     public Pantalla() {
         initComponents();
@@ -466,7 +469,11 @@ public class Pantalla extends javax.swing.JFrame {
             //Aquí va el texto de prueba
             String texto = txtArea.getText();
             scannerRep scan = new scannerRep(new BufferedReader(new StringReader(texto)));
+            scan.listaErrores = this.listaErrores;
+            scan.archivoActual = jTabbedPane1.getSelectedComponent().getName();
             parserRep parser = new parserRep(scan);
+            parser.archivoActual = jTabbedPane1.getSelectedComponent().getName();
+            parser.listaErrores = this.listaErrores;
             parser.parse();
             if (parser.enr == 0) {//quiere decir que no tuvo errores no recuperables o sea que si puede hacer el reporte
                 if (parser.er != 0) {
@@ -588,7 +595,15 @@ public class Pantalla extends javax.swing.JFrame {
 
     //errores
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-
+        if(listaErrores.size() > 0){
+            String cad = "";
+            for(int i = 0; i < listaErrores.size(); i++){
+                cad = cad + "L:" + listaErrores.get(i).linea + " C:" + listaErrores.get(i).columna + " A: " + listaErrores.get(i).archivo + " -->" + listaErrores.get(i).descripcion +"\n";
+            }
+            mensaje(cad);
+        }else{
+            mensaje("No hay errores");
+        }
     }//GEN-LAST:event_jButton8ActionPerformed
 
     //imagenes

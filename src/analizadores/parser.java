@@ -8,6 +8,7 @@ package analizadores;
 import java_cup.runtime.Symbol;
 import almacenamiento.Clave;
 import java.util.ArrayList;
+import almacenamiento.Errores;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20150930 (SVN rev 66) generated parser.
@@ -117,16 +118,21 @@ public class parser extends java_cup.runtime.lr_parser {
     //Codigo visible
     public int er = 0;
     public int enr = 0;
-
+    public String archivoActual = "";
+    public ArrayList<Errores> listaErrores = new ArrayList<Errores>();
     public ArrayList<Clave> listaC;
     public ArrayList<Object[]> listaR;
     public void syntax_error(Symbol s){
-        System.out.println("Error R de sintaxis: "+ s.value +" Linea "+(s.left+1)+" columna "+(s.right+1) );
+        //System.out.println("Error R de sintaxis: "+ s.value +" Linea "+(s.left+1)+" columna "+(s.right+1) );
         er = er+1;
+        Errores nuevoError = new Errores((s.left+1), (s.right+1), 2,s.value.toString(), "","", archivoActual);
+        listaErrores.add(nuevoError);
     }
     public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
         System.out.println("Error NR de sintaxis: "+ s.value +" Linea "+(s.left+1)+" columna "+(s.right+1) );
         enr = enr +1;
+        Errores nuevoError = new Errores((s.left+1), (s.right+1), 3,s.value.toString(), "","", archivoActual);
+        listaErrores.add(nuevoError);
     }
 
 
