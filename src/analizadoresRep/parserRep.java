@@ -227,7 +227,6 @@ public class parserRep extends java_cup.runtime.lr_parser {
 
 	//Codigo visible
     public String cadenaImprimir = "";
-
     public String archivoActual = "";
     public ArrayList<Errores> listaErrores = new ArrayList<Errores>();
 
@@ -257,7 +256,8 @@ class CUP$parserRep$actions {
 
     //Codigo de acciones
 
-		public String cadenaImpresion = "";
+		
+    public String cadenaImpresion = "";
 
     public ArrayList<Variable> listaVariables = new ArrayList<Variable>();
 
@@ -921,7 +921,7 @@ class CUP$parserRep$actions {
                         parser parser1 = new parser(scan);
                         parser1.listaErrores = parser.listaErrores;
                         parser1.archivoActual = a;
-                        parser.parse();
+                        parser1.parse();
                         if (parser1.enr == 0) {//quiere decir que no tuvo errores no recuperables o sea que si puede hacer el reporte
                             if (parser1.er != 0) {
                                 System.out.println("Se han detectado errores, los mismos se han omitido.");

@@ -6,9 +6,11 @@ package olcpractica1;
 //import analizadores.parser;
 //import analizadores.scanner;
 import almacenamiento.Errores;
+import almacenamiento.Variable;
 import analizadoresRep.parserRep;
 import analizadoresRep.scannerRep;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.HeadlessException;
 import java.awt.Image;
@@ -61,6 +63,9 @@ public class Pantalla extends javax.swing.JFrame {
     FileWriter fileWriter;
     String aux, aux2;
     public ArrayList<Errores> listaErrores = new ArrayList<Errores>();
+    File directorio=new File("resultados"); 
+    public ArrayList<Variable> entorno = new ArrayList<Variable>();
+    
 
     public Pantalla() {
         initComponents();
@@ -81,6 +86,8 @@ public class Pantalla extends javax.swing.JFrame {
         ponerIconos("graficas", jButton9);
         ponerIconos("salir", jButton7);
 
+        //creando la carpeta de salidas
+        directorio.mkdir(); 
         //efecto de colorcito de los botones
         jButton2.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent arg0) {
@@ -608,7 +615,12 @@ public class Pantalla extends javax.swing.JFrame {
 
     //imagenes
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-
+        mensaje("Se abrirá la carpeta que contiene las imágenes generadas durante el análisis");
+        try {
+            Desktop.getDesktop().open(new File("entradas"));
+        } catch (IOException ex) {
+            mensaje("Error al abrir la carpeta");
+        }
     }//GEN-LAST:event_jButton9ActionPerformed
 
     //acerca de
