@@ -192,12 +192,13 @@ public class parserRep extends java_cup.runtime.lr_parser {
   public short[][] reduce_table() {return _reduce_table;}
 
   /** Instance of action encapsulation class. */
-  protected CUP$parserRep$actions action_obj;
+  public CUP$parserRep$actions action_obj;
 
   /** Action encapsulation object initializer. */
   protected void init_actions()
     {
       action_obj = new CUP$parserRep$actions(this);
+      action_obj.listaVariables = vR;
     }
 
   /** Invoke a user supplied parse action. */
@@ -229,7 +230,7 @@ public class parserRep extends java_cup.runtime.lr_parser {
     public String cadenaImprimir = "";
     public String archivoActual = "";
     public ArrayList<Errores> listaErrores = new ArrayList<Errores>();
-
+    public ArrayList<Variable> vR = new ArrayList<Variable>();
     public int er = 0;
     public int enr = 0;
 
@@ -251,7 +252,7 @@ public class parserRep extends java_cup.runtime.lr_parser {
 
 /** Cup generated class to encapsulate user supplied action code.*/
 @SuppressWarnings({"rawtypes", "unchecked", "unused"})
-class CUP$parserRep$actions {
+public class CUP$parserRep$actions {
 
 
     //Codigo de acciones
@@ -266,7 +267,9 @@ class CUP$parserRep$actions {
         FileReader fr = null;
         BufferedReader br = null;
         String ret = "";
-        try {
+        File fileN = new File(ruta);
+        if(fileN.exists()){
+            try {
             archivo = new File(ruta);
             fr = new FileReader(archivo);
             br = new BufferedReader(fr);
@@ -285,7 +288,10 @@ class CUP$parserRep$actions {
                 //e2.printStackTrace();
             }
         }
-        return ret;
+    }else{
+        System.out.println("El archivo no existe");
+    }
+                return ret;
     }
 
     public boolean verificarVariable(String nombre_){
@@ -589,7 +595,7 @@ class CUP$parserRep$actions {
                 											false
         														);
         														final ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
-            												final File file1 = new File("entradas/" + a.valor.toString() + ".jpg");
+            												final File file1 = new File("resultados/" + a.valor.toString() + ".jpg");
             												ChartUtilities.saveChartAsJPEG(file1, chart, 1300, 600, info);
     															}else{
     																System.out.println("No se han encontrado datos, la grafica no se creará");

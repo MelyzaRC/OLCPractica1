@@ -41,7 +41,7 @@ parser code
     public String cadenaImprimir = "";
     public String archivoActual = "";
     public ArrayList<Errores> listaErrores = new ArrayList<Errores>();
-
+    public ArrayList<Variable> vR = new ArrayList<Variable>();
     public int er = 0;
     public int enr = 0;
 
@@ -75,7 +75,9 @@ action code
         FileReader fr = null;
         BufferedReader br = null;
         String ret = "";
-        try {
+        File fileN = new File(ruta);
+        if(fileN.exists()){
+            try {
             archivo = new File(ruta);
             fr = new FileReader(archivo);
             br = new BufferedReader(fr);
@@ -94,7 +96,10 @@ action code
                 //e2.printStackTrace();
             }
         }
-        return ret;
+    }else{
+        System.out.println("El archivo no existe");
+    }
+                return ret;
     }
 
     public boolean verificarVariable(String nombre_){
@@ -193,6 +198,7 @@ start with S;
 //******************************************************************************
 //**                            Reglas                                        **
 //******************************************************************************
+
 S::= INICIO
     {:
         parser.cadenaImprimir = cadenaImpresion;
@@ -318,7 +324,7 @@ GRAFICA::= R_GRAFICAR PARENTESISABRE NOMBRE:a COMA NOMBRE:b COMA ID:c COMA NOMBR
                 											false
         														);
         														final ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
-            												final File file1 = new File("entradas/" + a.valor.toString() + ".jpg");
+            												final File file1 = new File("resultados/" + a.valor.toString() + ".jpg");
             												ChartUtilities.saveChartAsJPEG(file1, chart, 1300, 600, info);
     															}else{
     																System.out.println("No se han encontrado datos, la grafica no se creará");

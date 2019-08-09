@@ -481,6 +481,7 @@ public class Pantalla extends javax.swing.JFrame {
             parserRep parser = new parserRep(scan);
             parser.archivoActual = jTabbedPane1.getSelectedComponent().getName();
             parser.listaErrores = this.listaErrores;
+            parser.vR = this.entorno;
             parser.parse();
             if (parser.enr == 0) {//quiere decir que no tuvo errores no recuperables o sea que si puede hacer el reporte
                 if (parser.er != 0) {
@@ -615,12 +616,13 @@ public class Pantalla extends javax.swing.JFrame {
 
     //imagenes
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        mensaje("Se abrirá la carpeta que contiene las imágenes generadas durante el análisis");
+/*        mensaje("Se abrirá la carpeta que contiene las imágenes generadas durante el análisis");
         try {
-            Desktop.getDesktop().open(new File("entradas"));
+            Desktop.getDesktop().open(new File("resultados"));
         } catch (IOException ex) {
             mensaje("Error al abrir la carpeta");
-        }
+        }*/
+        System.out.println(obtenerTexto("nfoasd.dat"));
     }//GEN-LAST:event_jButton9ActionPerformed
 
     //acerca de
@@ -677,7 +679,11 @@ public class Pantalla extends javax.swing.JFrame {
         FileReader fr = null;
         BufferedReader br = null;
         String ret = "";
-        try {
+        File f = new File(ruta);
+        
+        if(f.exists()){
+        
+            try {
             archivo = new File(ruta);
             fr = new FileReader(archivo);
             br = new BufferedReader(fr);
@@ -695,6 +701,9 @@ public class Pantalla extends javax.swing.JFrame {
             } catch (Exception e2) {
                 e2.printStackTrace();
             }
+        }
+        }else{
+            mensaje("No existe el archivo");
         }
         return ret;
     }
