@@ -192,13 +192,12 @@ public class parserRep extends java_cup.runtime.lr_parser {
   public short[][] reduce_table() {return _reduce_table;}
 
   /** Instance of action encapsulation class. */
-  public CUP$parserRep$actions action_obj;
+  protected CUP$parserRep$actions action_obj;
 
   /** Action encapsulation object initializer. */
   protected void init_actions()
     {
       action_obj = new CUP$parserRep$actions(this);
-      action_obj.listaVariables = vR;
     }
 
   /** Invoke a user supplied parse action. */
@@ -252,7 +251,7 @@ public class parserRep extends java_cup.runtime.lr_parser {
 
 /** Cup generated class to encapsulate user supplied action code.*/
 @SuppressWarnings({"rawtypes", "unchecked", "unused"})
-public class CUP$parserRep$actions {
+class CUP$parserRep$actions {
 
 
     //Codigo de acciones
@@ -453,8 +452,12 @@ public class CUP$parserRep$actions {
 		int aright = ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-2)).right;
 		String a = (String)((java_cup.runtime.Symbol) CUP$parserRep$stack.elementAt(CUP$parserRep$top-2)).value;
 		
-						System.out.println("Lo que saldría en la consola es:\n" + a);
-						cadenaImpresion = cadenaImpresion + "\n" +a ;
+						if(a != null){
+                            System.out.println("Lo que saldría en la consola es:\n" + a);
+                            cadenaImpresion = cadenaImpresion + "\n" +a ;
+                        }else{
+                            System.out.println("Error semantico null en impresion");
+                        }
 				
               CUP$parserRep$result = parser.getSymbolFactory().newSymbol("IMPRESION",7, ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-4)), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
@@ -481,7 +484,28 @@ public class CUP$parserRep$actions {
                 						RESULT = a + b.valor.toString();
                 					break;
                 					case 3:
-                						RESULT = null;
+                						 Archivo ar2 = (Archivo ) b.valor;
+                                        //retornar archivo como claves y numero de registro
+                                        if(ar2 != null){
+                                            Archivo retArchivo2 = (Archivo) b.valor;
+                                        if(retArchivo2.claves != null && retArchivo2.claves.size()> 0 ){
+                                                
+                                        String cadenaArchivo2 = "Claves[";
+                                        for(int i = 0; i < retArchivo2.claves.size(); i++){
+                                            cadenaArchivo2 = cadenaArchivo2 + "\"" + retArchivo2.claves.get(i).nombre + "\"";
+                                            if(i == retArchivo2.claves.size()-1){
+                                                cadenaArchivo2 = cadenaArchivo2;
+                                            }else{
+                                                cadenaArchivo2 = cadenaArchivo2 + ",";
+                                            }
+                                        }
+                                        cadenaArchivo2 = cadenaArchivo2 + "]\nNúmero de registros: ";
+                                        cadenaArchivo2 = cadenaArchivo2 + String.valueOf(retArchivo2.registros.size());
+                                        RESULT = a + cadenaArchivo2;
+                                        }
+                                        }else{
+                                            RESULT = null;
+                                        }
                 					break;
                 				}
 											}else{
@@ -510,23 +534,31 @@ public class CUP$parserRep$actions {
                 						RESULT = a.valor.toString();
                 					break;
                 					case 3:
+                                        Archivo ar = (Archivo ) a.valor;
                 						//retornar archivo como claves y numero de registro
-                						if(a != null){
-                							Archivo retArchivo = (Archivo) a.valor;
-                						String cadenaArchivo = "Claves[";
-                						for(int i = 0; i < retArchivo.claves.size(); i++){
-                							cadenaArchivo = cadenaArchivo + "\"" + retArchivo.claves.get(i).nombre + "\"";
-                							if(i == retArchivo.claves.size()-1){
-                								cadenaArchivo = cadenaArchivo;
-                							}else{
-                								cadenaArchivo = cadenaArchivo + ",";
-                							}
-                						}
-                						cadenaArchivo = cadenaArchivo + "]\nNúmero de registros: ";
-                						cadenaArchivo = cadenaArchivo + String.valueOf(retArchivo.registros.size());
-                						RESULT = cadenaArchivo;
-                						}
+                						if(ar != null){
+                                            Archivo retArchivo = (Archivo) a.valor;
+                						if(retArchivo.claves != null && retArchivo.claves.size()> 0 ){
+                                                
+                                        String cadenaArchivo = "Claves[";
+                                        for(int i = 0; i < retArchivo.claves.size(); i++){
+                                            cadenaArchivo = cadenaArchivo + "\"" + retArchivo.claves.get(i).nombre + "\"";
+                                            if(i == retArchivo.claves.size()-1){
+                                                cadenaArchivo = cadenaArchivo;
+                                            }else{
+                                                cadenaArchivo = cadenaArchivo + ",";
+                                            }
+                                        }
+                                        cadenaArchivo = cadenaArchivo + "]\nNúmero de registros: ";
+                                        cadenaArchivo = cadenaArchivo + String.valueOf(retArchivo.registros.size());
+                                        RESULT = cadenaArchivo;
+                                        }
+                                        }else{
+                                            RESULT = null;
+                                        }
                 					break;
+                                    default:
+                                        RESULT = null;
                 				}
                 			}else{
                 				RESULT = null;
@@ -563,9 +595,9 @@ public class CUP$parserRep$actions {
     								if(listaVariables.get(i).nombre.equals(c)){
     									if(listaVariables.get(i).tipo == 3){
     										Archivo aRE = (Archivo) listaVariables.get(i).valor;
-    										ArrayList<Clave> cls = aRE.claves;
-    										if(d.tipo == 2 && !d.valor.toString().equals("")){
-    											if(verificarClave(cls, d.valor.toString())){
+    										if(aRE != null && d.tipo == 2 && !d.valor.toString().equals("")){
+                                                ArrayList<Clave> cls = aRE.claves;
+    											if(cls != null && verificarClave(cls, d.valor.toString())){
     												/*****************************************************/
     												if(e.tipo == 2 && !e.valor.toString().equals("")){
     													if(verificarClave(cls, e.valor.toString())){
@@ -614,7 +646,7 @@ public class CUP$parserRep$actions {
     												}
     											/*****************************************************/
     											}else{
-    												System.out.println("No existe la clave para valores x -> " + d.valor.toString());
+    												System.out.println("No existe la clave para valores x -> " + d.valor.toString() + " o se puso archivo null");
     											}
     										}else{
     											System.out.println("Error en valores x");
@@ -974,26 +1006,30 @@ public class CUP$parserRep$actions {
 						if(listaVariables.get(i).nombre.equals(a)){
 							if(listaVariables.get(i).tipo == 3){
 								Archivo ar = (Archivo) listaVariables.get(i).valor;
-								if(verificarClave(ar.claves, b)){
-									int indice = 0;
-									for(int j = 0; j < ar.claves.size(); j++){
-										if(ar.claves.get(j).nombre.equals(b)){
-											if(ar.claves.get(j).tipo == 0){
-												indice = j;
-												ArrayList<Object[]> regSum = ar.registros;
-												for(int h = 0; h < regSum.size(); h++){
-													Double su = Double.parseDouble(regSum.get(h)[indice].toString());
-													res = res + su;
-												}
-											}else{
-												System.out.println("La clave que intenta sumar no es de tipo numerico");
-											}
-											break;
-										}
-									}
-								}else{
-									System.out.println("La clave buscada no existe");
-								}
+								if(ar != null){
+                                    if(verificarClave(ar.claves, b)){
+                                    int indice = 0;
+                                    for(int j = 0; j < ar.claves.size(); j++){
+                                            if(ar.claves.get(j).nombre.equals(b)){
+                                                if(ar.claves.get(j).tipo == 0){
+                                                 indice = j;
+                                                    ArrayList<Object[]> regSum = ar.registros;
+                                                  for(int h = 0; h < regSum.size(); h++){
+                                                       Double su = Double.parseDouble(regSum.get(h)[indice].toString());
+                                                       res = res + su;
+                                                    }
+                                             }else{
+                                                 System.out.println("La clave que intenta sumar no es de tipo numerico");
+                                             }
+                                              break;
+                                            }
+                                        }
+                                    }else{
+                                    System.out.println("La clave buscada no existe");
+                                    }
+                                }else{
+                                    System.out.println("La variable es nula archivo");
+                                }
 							}else{
 								System.out.println("La variable no es de tipo archivo");
 							}
@@ -1023,8 +1059,10 @@ public class CUP$parserRep$actions {
 					for(int i = 0; i < listaVariables.size(); i++){
 						if(listaVariables.get(i).nombre.equals(a)){
 							if(listaVariables.get(i).tipo == 3){
-								Archivo ar = (Archivo) listaVariables.get(i).valor;
-								res = ar.registros.size();
+                                Archivo ar = (Archivo) listaVariables.get(i).valor;
+                                if(ar != null ){
+                                    res = ar.registros.size();    
+                                }
 							}else{
 								System.out.println("La variable no es de tipo archivo");
 							}
@@ -1058,27 +1096,31 @@ public class CUP$parserRep$actions {
 						if(listaVariables.get(i).nombre.equals(a)){
 							if(listaVariables.get(i).tipo == 3){
 								Archivo ar = (Archivo) listaVariables.get(i).valor;
-								if(verificarClave(ar.claves, b)){
-									int indice = 0;
-									for(int j = 0; j < ar.claves.size(); j++){
-										if(ar.claves.get(j).nombre.equals(b)){
-											if(ar.claves.get(j).tipo == 0){
-												indice = j;
-												ArrayList<Object[]> regSum = ar.registros;
-												for(int h = 0; h < regSum.size(); h++){
-													Double su = Double.parseDouble(regSum.get(h)[indice].toString());
-													res = res + su;
-												}
-												res = res / regSum.size();
-											}else{
-												System.out.println("La clave que intenta sumar no es de tipo numerico");
-											}
-											break;
-										}
-									}
-								}else{
-									System.out.println("La clave buscada no existe");
-								}
+								if(ar != null){
+                                    if(verificarClave(ar.claves, b)){
+                                    int indice = 0;
+                                    for(int j = 0; j < ar.claves.size(); j++){
+                                        if(ar.claves.get(j).nombre.equals(b)){
+                                            if(ar.claves.get(j).tipo == 0){
+                                                indice = j;
+                                                ArrayList<Object[]> regSum = ar.registros;
+                                                for(int h = 0; h < regSum.size(); h++){
+                                                    Double su = Double.parseDouble(regSum.get(h)[indice].toString());
+                                                    res = res + su;
+                                                }
+                                                res = res / regSum.size();
+                                            }else{
+                                                System.out.println("La clave que intenta sumar no es de tipo numerico");
+                                            }
+                                            break;
+                                        }
+                                    }
+                                }else{
+                                    System.out.println("La clave buscada no existe");
+                                }
+                                }else{
+                                    System.out.println("Es nula la variable archivo");
+                                }
 							}else{
 								System.out.println("La variable no es de tipo archivo");
 							}
@@ -1118,7 +1160,7 @@ public class CUP$parserRep$actions {
 						if(listaVariables.get(i).nombre.equals(a)){
 							if(listaVariables.get(i).tipo == 3){
 								Archivo ar = (Archivo) listaVariables.get(i).valor;
-								if(verificarClave(ar.claves, b)){
+								if(ar != null && verificarClave(ar.claves, b)){
 									for(int j = 0; j < ar.claves.size(); j++){
 										if(ar.claves.get(j).nombre.equals(b)){
 											/********************************************************************/
@@ -1267,7 +1309,7 @@ public class CUP$parserRep$actions {
 										}
 									}
 								}else{
-									System.out.println("La clave buscada no existe");
+									System.out.println("La clave buscada no existe o es nulo el archivo");
 								}
 							}else{
 								System.out.println("La variable no es de tipo archivo");
@@ -1308,7 +1350,7 @@ public class CUP$parserRep$actions {
 						if(listaVariables.get(i).nombre.equals(a)){
 							if(listaVariables.get(i).tipo == 3){
 								Archivo ar = (Archivo) listaVariables.get(i).valor;
-								if(verificarClave(ar.claves, b)){
+								if(ar != null && verificarClave(ar.claves, b)){
 									for(int j = 0; j < ar.claves.size(); j++){
 										if(ar.claves.get(j).nombre.equals(b)){
 											/********************************************************************/
@@ -1457,7 +1499,7 @@ public class CUP$parserRep$actions {
 										}
 									}
 								}else{
-									System.out.println("La clave buscada no existe");
+									System.out.println("La clave buscada no existe o es nulo el archivo");
 								}
 							}else{
 								System.out.println("La variable no es de tipo archivo");

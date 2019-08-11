@@ -223,8 +223,12 @@ INICIO::=   INICIO DECLARACION
 
 IMPRESION::= R_IMPRIMIR PARENTESISABRE LISTAEXPRESION:a PARENTESISCIERRA PUNTOCOMA
 				{:
-						System.out.println("Lo que saldría en la consola es:\n" + a);
-						cadenaImpresion = cadenaImpresion + "\n" +a ;
+						if(a != null){
+                            System.out.println("Lo que saldría en la consola es:\n" + a);
+                            cadenaImpresion = cadenaImpresion + "\n" +a ;
+                        }else{
+                            System.out.println("Error semantico null en impresion");
+                        }
 				:}
 ;
 
@@ -240,7 +244,28 @@ LISTAEXPRESION::=   LISTAEXPRESION:a COMA VALOR:b
                 						RESULT = a + b.valor.toString();
                 					break;
                 					case 3:
-                						RESULT = null;
+                						 Archivo ar2 = (Archivo ) b.valor;
+                                        //retornar archivo como claves y numero de registro
+                                        if(ar2 != null){
+                                            Archivo retArchivo2 = (Archivo) b.valor;
+                                        if(retArchivo2.claves != null && retArchivo2.claves.size()> 0 ){
+                                                
+                                        String cadenaArchivo2 = "Claves[";
+                                        for(int i = 0; i < retArchivo2.claves.size(); i++){
+                                            cadenaArchivo2 = cadenaArchivo2 + "\"" + retArchivo2.claves.get(i).nombre + "\"";
+                                            if(i == retArchivo2.claves.size()-1){
+                                                cadenaArchivo2 = cadenaArchivo2;
+                                            }else{
+                                                cadenaArchivo2 = cadenaArchivo2 + ",";
+                                            }
+                                        }
+                                        cadenaArchivo2 = cadenaArchivo2 + "]\nNúmero de registros: ";
+                                        cadenaArchivo2 = cadenaArchivo2 + String.valueOf(retArchivo2.registros.size());
+                                        RESULT = a + cadenaArchivo2;
+                                        }
+                                        }else{
+                                            RESULT = null;
+                                        }
                 					break;
                 				}
 											}else{
@@ -259,23 +284,31 @@ LISTAEXPRESION::=   LISTAEXPRESION:a COMA VALOR:b
                 						RESULT = a.valor.toString();
                 					break;
                 					case 3:
+                                        Archivo ar = (Archivo ) a.valor;
                 						//retornar archivo como claves y numero de registro
-                						if(a != null){
-                							Archivo retArchivo = (Archivo) a.valor;
-                						String cadenaArchivo = "Claves[";
-                						for(int i = 0; i < retArchivo.claves.size(); i++){
-                							cadenaArchivo = cadenaArchivo + "\"" + retArchivo.claves.get(i).nombre + "\"";
-                							if(i == retArchivo.claves.size()-1){
-                								cadenaArchivo = cadenaArchivo;
-                							}else{
-                								cadenaArchivo = cadenaArchivo + ",";
-                							}
-                						}
-                						cadenaArchivo = cadenaArchivo + "]\nNúmero de registros: ";
-                						cadenaArchivo = cadenaArchivo + String.valueOf(retArchivo.registros.size());
-                						RESULT = cadenaArchivo;
-                						}
+                						if(ar != null){
+                                            Archivo retArchivo = (Archivo) a.valor;
+                						if(retArchivo.claves != null && retArchivo.claves.size()> 0 ){
+                                                
+                                        String cadenaArchivo = "Claves[";
+                                        for(int i = 0; i < retArchivo.claves.size(); i++){
+                                            cadenaArchivo = cadenaArchivo + "\"" + retArchivo.claves.get(i).nombre + "\"";
+                                            if(i == retArchivo.claves.size()-1){
+                                                cadenaArchivo = cadenaArchivo;
+                                            }else{
+                                                cadenaArchivo = cadenaArchivo + ",";
+                                            }
+                                        }
+                                        cadenaArchivo = cadenaArchivo + "]\nNúmero de registros: ";
+                                        cadenaArchivo = cadenaArchivo + String.valueOf(retArchivo.registros.size());
+                                        RESULT = cadenaArchivo;
+                                        }
+                                        }else{
+                                            RESULT = null;
+                                        }
                 					break;
+                                    default:
+                                        RESULT = null;
                 				}
                 			}else{
                 				RESULT = null;
@@ -292,9 +325,9 @@ GRAFICA::= R_GRAFICAR PARENTESISABRE NOMBRE:a COMA NOMBRE:b COMA ID:c COMA NOMBR
     								if(listaVariables.get(i).nombre.equals(c)){
     									if(listaVariables.get(i).tipo == 3){
     										Archivo aRE = (Archivo) listaVariables.get(i).valor;
-    										ArrayList<Clave> cls = aRE.claves;
-    										if(d.tipo == 2 && !d.valor.toString().equals("")){
-    											if(verificarClave(cls, d.valor.toString())){
+    										if(aRE != null && d.tipo == 2 && !d.valor.toString().equals("")){
+                                                ArrayList<Clave> cls = aRE.claves;
+    											if(cls != null && verificarClave(cls, d.valor.toString())){
     												/*****************************************************/
     												if(e.tipo == 2 && !e.valor.toString().equals("")){
     													if(verificarClave(cls, e.valor.toString())){
@@ -343,7 +376,7 @@ GRAFICA::= R_GRAFICAR PARENTESISABRE NOMBRE:a COMA NOMBRE:b COMA ID:c COMA NOMBR
     												}
     											/*****************************************************/
     											}else{
-    												System.out.println("No existe la clave para valores x -> " + d.valor.toString());
+    												System.out.println("No existe la clave para valores x -> " + d.valor.toString() + " o se puso archivo null");
     											}
     										}else{
     											System.out.println("Error en valores x");
@@ -559,26 +592,30 @@ F_SUMAR::=  R_SUMAR PARENTESISABRE ID:a COMA RUTA:b PARENTESISCIERRA PUNTOCOMA
 						if(listaVariables.get(i).nombre.equals(a)){
 							if(listaVariables.get(i).tipo == 3){
 								Archivo ar = (Archivo) listaVariables.get(i).valor;
-								if(verificarClave(ar.claves, b)){
-									int indice = 0;
-									for(int j = 0; j < ar.claves.size(); j++){
-										if(ar.claves.get(j).nombre.equals(b)){
-											if(ar.claves.get(j).tipo == 0){
-												indice = j;
-												ArrayList<Object[]> regSum = ar.registros;
-												for(int h = 0; h < regSum.size(); h++){
-													Double su = Double.parseDouble(regSum.get(h)[indice].toString());
-													res = res + su;
-												}
-											}else{
-												System.out.println("La clave que intenta sumar no es de tipo numerico");
-											}
-											break;
-										}
-									}
-								}else{
-									System.out.println("La clave buscada no existe");
-								}
+								if(ar != null){
+                                    if(verificarClave(ar.claves, b)){
+                                    int indice = 0;
+                                    for(int j = 0; j < ar.claves.size(); j++){
+                                            if(ar.claves.get(j).nombre.equals(b)){
+                                                if(ar.claves.get(j).tipo == 0){
+                                                 indice = j;
+                                                    ArrayList<Object[]> regSum = ar.registros;
+                                                  for(int h = 0; h < regSum.size(); h++){
+                                                       Double su = Double.parseDouble(regSum.get(h)[indice].toString());
+                                                       res = res + su;
+                                                    }
+                                             }else{
+                                                 System.out.println("La clave que intenta sumar no es de tipo numerico");
+                                             }
+                                              break;
+                                            }
+                                        }
+                                    }else{
+                                    System.out.println("La clave buscada no existe");
+                                    }
+                                }else{
+                                    System.out.println("La variable es nula archivo");
+                                }
 							}else{
 								System.out.println("La variable no es de tipo archivo");
 							}
@@ -600,8 +637,10 @@ F_CONTAR::= R_CONTAR PARENTESISABRE ID:a PARENTESISCIERRA PUNTOCOMA
 					for(int i = 0; i < listaVariables.size(); i++){
 						if(listaVariables.get(i).nombre.equals(a)){
 							if(listaVariables.get(i).tipo == 3){
-								Archivo ar = (Archivo) listaVariables.get(i).valor;
-								res = ar.registros.size();
+                                Archivo ar = (Archivo) listaVariables.get(i).valor;
+                                if(ar != null ){
+                                    res = ar.registros.size();    
+                                }
 							}else{
 								System.out.println("La variable no es de tipo archivo");
 							}
@@ -624,27 +663,31 @@ F_PROMEDIO::= R_PROMEDIO PARENTESISABRE ID:a COMA RUTA:b PARENTESISCIERRA PUNTOC
 						if(listaVariables.get(i).nombre.equals(a)){
 							if(listaVariables.get(i).tipo == 3){
 								Archivo ar = (Archivo) listaVariables.get(i).valor;
-								if(verificarClave(ar.claves, b)){
-									int indice = 0;
-									for(int j = 0; j < ar.claves.size(); j++){
-										if(ar.claves.get(j).nombre.equals(b)){
-											if(ar.claves.get(j).tipo == 0){
-												indice = j;
-												ArrayList<Object[]> regSum = ar.registros;
-												for(int h = 0; h < regSum.size(); h++){
-													Double su = Double.parseDouble(regSum.get(h)[indice].toString());
-													res = res + su;
-												}
-												res = res / regSum.size();
-											}else{
-												System.out.println("La clave que intenta sumar no es de tipo numerico");
-											}
-											break;
-										}
-									}
-								}else{
-									System.out.println("La clave buscada no existe");
-								}
+								if(ar != null){
+                                    if(verificarClave(ar.claves, b)){
+                                    int indice = 0;
+                                    for(int j = 0; j < ar.claves.size(); j++){
+                                        if(ar.claves.get(j).nombre.equals(b)){
+                                            if(ar.claves.get(j).tipo == 0){
+                                                indice = j;
+                                                ArrayList<Object[]> regSum = ar.registros;
+                                                for(int h = 0; h < regSum.size(); h++){
+                                                    Double su = Double.parseDouble(regSum.get(h)[indice].toString());
+                                                    res = res + su;
+                                                }
+                                                res = res / regSum.size();
+                                            }else{
+                                                System.out.println("La clave que intenta sumar no es de tipo numerico");
+                                            }
+                                            break;
+                                        }
+                                    }
+                                }else{
+                                    System.out.println("La clave buscada no existe");
+                                }
+                                }else{
+                                    System.out.println("Es nula la variable archivo");
+                                }
 							}else{
 								System.out.println("La variable no es de tipo archivo");
 							}
@@ -667,7 +710,7 @@ F_CONTARSI::= R_CONTARSI PARENTESISABRE ID:a COMA RUTA:b COMA OP:c COMA VALOR:d 
 						if(listaVariables.get(i).nombre.equals(a)){
 							if(listaVariables.get(i).tipo == 3){
 								Archivo ar = (Archivo) listaVariables.get(i).valor;
-								if(verificarClave(ar.claves, b)){
+								if(ar != null && verificarClave(ar.claves, b)){
 									for(int j = 0; j < ar.claves.size(); j++){
 										if(ar.claves.get(j).nombre.equals(b)){
 											/********************************************************************/
@@ -816,7 +859,7 @@ F_CONTARSI::= R_CONTARSI PARENTESISABRE ID:a COMA RUTA:b COMA OP:c COMA VALOR:d 
 										}
 									}
 								}else{
-									System.out.println("La clave buscada no existe");
+									System.out.println("La clave buscada no existe o es nulo el archivo");
 								}
 							}else{
 								System.out.println("La variable no es de tipo archivo");
@@ -840,7 +883,7 @@ F_OBTENERSI::= R_OBTENERSI PARENTESISABRE ID:a COMA RUTA:b COMA OP:c COMA VALOR:
 						if(listaVariables.get(i).nombre.equals(a)){
 							if(listaVariables.get(i).tipo == 3){
 								Archivo ar = (Archivo) listaVariables.get(i).valor;
-								if(verificarClave(ar.claves, b)){
+								if(ar != null && verificarClave(ar.claves, b)){
 									for(int j = 0; j < ar.claves.size(); j++){
 										if(ar.claves.get(j).nombre.equals(b)){
 											/********************************************************************/
@@ -989,7 +1032,7 @@ F_OBTENERSI::= R_OBTENERSI PARENTESISABRE ID:a COMA RUTA:b COMA OP:c COMA VALOR:
 										}
 									}
 								}else{
-									System.out.println("La clave buscada no existe");
+									System.out.println("La clave buscada no existe o es nulo el archivo");
 								}
 							}else{
 								System.out.println("La variable no es de tipo archivo");
