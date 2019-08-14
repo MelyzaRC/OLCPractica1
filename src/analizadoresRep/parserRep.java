@@ -255,8 +255,7 @@ class CUP$parserRep$actions {
 
 
     //Codigo de acciones
-
-		
+	
     public String cadenaImpresion = "";
 
     public ArrayList<Variable> listaVariables = new ArrayList<Variable>();
@@ -287,9 +286,9 @@ class CUP$parserRep$actions {
                 //e2.printStackTrace();
             }
         }
-    }else{
+        }else{
         System.out.println("El archivo no existe");
-    }
+        }
                 return ret;
     }
 
@@ -516,10 +515,11 @@ class CUP$parserRep$actions {
                 					break;
                 				}
 											}else{
+                                                RESULT = null;
                                                 addErrorSemantico(0,0,"Se detectó NULL en impresion");
 												System.out.println("nulo en Impresión");
 											}
-										
+							
               CUP$parserRep$result = parser.getSymbolFactory().newSymbol("LISTAEXPRESION",8, ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-2)), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
           return CUP$parserRep$result;
@@ -760,7 +760,7 @@ class CUP$parserRep$actions {
 		int aright = ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()).right;
 		String a = (String)((java_cup.runtime.Symbol) CUP$parserRep$stack.peek()).value;
 		
-								FuncionSubir fn = new FuncionSubir(2, a.replace("\"", ""));
+								FuncionSubir fn = new FuncionSubir(2, a.toLowerCase().replace("\"", ""));
 								RESULT = fn;
 						
               CUP$parserRep$result = parser.getSymbolFactory().newSymbol("VALOR",11, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
@@ -777,7 +777,7 @@ class CUP$parserRep$actions {
 		
         				if(listaVariables.size() > 0){
         					for(int i = 0; i < listaVariables.size(); i++){
-        						if(listaVariables.get(i).nombre.equals(a)){
+        						if(listaVariables.get(i).nombre.toLowerCase().equals(a.toLowerCase())){
         							FuncionSubir fn = new FuncionSubir(listaVariables.get(i).tipo, listaVariables.get(i).valor);
 											RESULT = fn;
         						}
@@ -804,6 +804,7 @@ class CUP$parserRep$actions {
 		int cright = ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()).right;
 		FuncionSubir c = (FuncionSubir)((java_cup.runtime.Symbol) CUP$parserRep$stack.peek()).value;
 		
+                    if(c.valor != null){
                     if(a.equals(String.valueOf(c.tipo))){
                         switch(Integer.parseInt(a)){
                         	case 3:
@@ -843,6 +844,11 @@ class CUP$parserRep$actions {
                         addErrorSemantico(0,0,"Variable: " + b + " no coinciden los tipos");
                         System.out.println("Incorrecto tipos");
                     }
+
+                }else{
+                    addErrorSemantico(0,0,"Variable: " + b + " no se guardará");
+                    System.out.println("Nulo en declaración de variable");
+                }
                 
               CUP$parserRep$result = parser.getSymbolFactory().newSymbol("DECLARACION",2, ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-3)), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
@@ -1036,14 +1042,14 @@ class CUP$parserRep$actions {
 				double res = 0;
 				if(verificarVariable(a)){
 					for(int i = 0; i < listaVariables.size(); i++){
-						if(listaVariables.get(i).nombre.equals(a)){
+						if(listaVariables.get(i).nombre.toLowerCase().equals(a.toLowerCase())){
 							if(listaVariables.get(i).tipo == 3){
 								Archivo ar = (Archivo) listaVariables.get(i).valor;
 								if(ar != null){
                                     if(verificarClave(ar.claves, b)){
                                     int indice = 0;
                                     for(int j = 0; j < ar.claves.size(); j++){
-                                            if(ar.claves.get(j).nombre.equals(b)){
+                                            if(ar.claves.get(j).nombre.toLowerCase().equals(b.toLowerCase())){
                                                 if(ar.claves.get(j).tipo == 0){
                                                  indice = j;
                                                     ArrayList<Object[]> regSum = ar.registros;
@@ -1051,22 +1057,28 @@ class CUP$parserRep$actions {
                                                        Double su = Double.parseDouble(regSum.get(h)[indice].toString());
                                                        res = res + su;
                                                     }
+                                                    System.out.println("La suma es: " + res);
+                                                    RESULT = String.valueOf(res);
                                              }else{
+                                                RESULT = null;
                                                 addErrorSemantico(0,0,"La clave "+b+" que intenta sumar no es de tipo numérico");
-                                                 System.out.println("La clave que intenta sumar no es de tipo numerico");
+                                                System.out.println("La clave que intenta sumar no es de tipo numerico");
                                              }
                                               break;
                                             }
                                         }
                                     }else{
+                                        RESULT = null;
                                         addErrorSemantico(0,0,"La clave buscada "+ b+" para el metodo sumar no existe");
-                                    System.out.println("La clave buscada no existe");
+                                        System.out.println("La clave buscada no existe");
                                     }
                                 }else{
+                                    RESULT = null;
                                     addErrorSemantico(0,0,"El archivo en "+a+" es nulo");
                                     System.out.println("La variable es nula archivo");
                                 }
 							}else{
+                                RESULT = null;
                                 addErrorSemantico(0,0,"La variable "+a+" no es de tipo archivo");
 								System.out.println("La variable no es de tipo archivo");
 							}
@@ -1074,11 +1086,11 @@ class CUP$parserRep$actions {
 						}
 					}
 				}else{
+                    RESULT = null;
                     addErrorSemantico(0,0,"La variable " + a + " no existe");
 					System.out.println("La variable " + a + " no existe");
 				}
-				System.out.println("La suma es: " + res);
-				RESULT = String.valueOf(res);
+				
 			
               CUP$parserRep$result = parser.getSymbolFactory().newSymbol("F_SUMAR",13, ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-6)), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
@@ -1095,25 +1107,28 @@ class CUP$parserRep$actions {
 				int res = 0;
 				if(verificarVariable(a)){
 					for(int i = 0; i < listaVariables.size(); i++){
-						if(listaVariables.get(i).nombre.equals(a)){
+						if(listaVariables.get(i).nombre.toLowerCase().equals(a.toLowerCase())){
 							if(listaVariables.get(i).tipo == 3){
                                 Archivo ar = (Archivo) listaVariables.get(i).valor;
                                 if(ar != null ){
                                     res = ar.registros.size();    
                                 }
+                                System.out.println("El numero de registros es: " + res);
+                                RESULT = String.valueOf(res);
 							}else{
                                 addErrorSemantico(0,0,"La variable "+ a+" No es de tipo archivo");
 								System.out.println("La variable no es de tipo archivo");
+                                RESULT = null;
 							}
 							break;
 						}
 					}
 				}else{
+                    RESULT= null;
                     addErrorSemantico(0,0,"La variable " + a + " no existe");
 					System.out.println("La variable " + a + " no existe");
 				}
-				System.out.println("El numero de registros es: " + res);
-				RESULT = String.valueOf(res);
+				
 			
               CUP$parserRep$result = parser.getSymbolFactory().newSymbol("F_CONTAR",14, ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-4)), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
@@ -1140,7 +1155,7 @@ class CUP$parserRep$actions {
                                     if(verificarClave(ar.claves, b)){
                                     int indice = 0;
                                     for(int j = 0; j < ar.claves.size(); j++){
-                                        if(ar.claves.get(j).nombre.equals(b)){
+                                        if(ar.claves.get(j).nombre.toLowerCase().equals(b.toLowerCase())){
                                             if(ar.claves.get(j).tipo == 0){
                                                 indice = j;
                                                 ArrayList<Object[]> regSum = ar.registros;
@@ -1149,7 +1164,10 @@ class CUP$parserRep$actions {
                                                     res = res + su;
                                                 }
                                                 res = res / regSum.size();
+                                                System.out.println("El promedio es: " + res);
+                                                RESULT = String.valueOf(res);
                                             }else{
+                                                RESULT = null;
                                                 addErrorSemantico(0,0,"La clave "+b+" que intenta sumar no es de tipo numerico");
                                                 System.out.println("La clave que intenta sumar no es de tipo numerico");
                                             }
@@ -1157,14 +1175,17 @@ class CUP$parserRep$actions {
                                         }
                                     }
                                 }else{
+                                    RESULT = null;
                                     addErrorSemantico(0,0,"La clave "+a+" no existe");
                                     System.out.println("La clave buscada no existe");
                                 }
                                 }else{
+                                    RESULT = null;
                                     addErrorSemantico(0,0,"Es nula la variable "+ a);
                                     System.out.println("Es nula la variable archivo");
                                 }
 							}else{
+                                RESULT = null;
                                 addErrorSemantico(0,0,"La variable "+a+" no es de tipo archivo");
 								System.out.println("La variable no es de tipo archivo");
 							}
@@ -1172,11 +1193,11 @@ class CUP$parserRep$actions {
 						}
 					}
 				}else{
+                    RESULT = null;
                     addErrorSemantico(0,0,"La variable "+a+" no existe");
 					System.out.println("La variable " + a + " no existe");
 				}
-				System.out.println("El promedio es: " + res);
-				RESULT = String.valueOf(res);
+				
 			
               CUP$parserRep$result = parser.getSymbolFactory().newSymbol("F_PROMEDIO",15, ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-6)), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
@@ -1227,7 +1248,10 @@ class CUP$parserRep$actions {
 																		res = res +1;
 																	}
 																}
+                                                                System.out.println("Numero de registros que coinciden: " + res);
+                                                                RESULT = String.valueOf(res);
 															}else if(valorSubido.tipo == 2){//es cadena
+                                                                RESULT = null;
                                                                 addErrorSemantico(0,0,"No puede comparar numero > cadena");
 																System.out.println("Error, No puede comparar numero > cadena");
 															}
@@ -1242,7 +1266,10 @@ class CUP$parserRep$actions {
 																		res = res +1;
 																	}
 																}
+                                                                System.out.println("Numero de registros que coinciden: " + res);
+                                                                RESULT = String.valueOf(res);
 															}else if(valorSubido.tipo == 2){//es cadena
+                                                                RESULT =null;
                                                                 addErrorSemantico(0,0,"Error, No puede comparar numero < cadena");
 																System.out.println("Error, No puede comparar numero < cadena");
 															}
@@ -1257,7 +1284,10 @@ class CUP$parserRep$actions {
 																		res = res +1;
 																	}
 																}
+                                                                System.out.println("Numero de registros que coinciden: " + res);
+                                                                RESULT = String.valueOf(res);
 															}else if(valorSubido.tipo == 2){//es cadena
+                                                                RESULT = null;
                                                                 addErrorSemantico(0,0,"Error, No puede comparar numero >= cadena");
 																System.out.println("Error, No puede comparar numero >= cadena");
 															}
@@ -1272,7 +1302,10 @@ class CUP$parserRep$actions {
 																		res = res +1;
 																	}
 																}
+                                                                System.out.println("Numero de registros que coinciden: " + res);
+                                                                RESULT = String.valueOf(res);
 															}else if(valorSubido.tipo == 2){//es cadena
+                                                                RESULT = null;
                                                                 addErrorSemantico(0,0,"Error, No puede comparar numero <= cadena");
 																System.out.println("Error, No puede comparar numero <= cadena");
 															}
@@ -1288,7 +1321,10 @@ class CUP$parserRep$actions {
 																		res = res +1;
 																	}
 																}
+                                                                System.out.println("Numero de registros que coinciden: " + res);
+                                                                RESULT = String.valueOf(res);
 															}else if(valorSubido.tipo == 2){//es cadena
+                                                                RESULT = null;
                                                                 addErrorSemantico(0,0,"Error, No puede comparar numero == cadena");
 																System.out.println("Error, No puede comparar numero == cadena");
 															}
@@ -1303,7 +1339,10 @@ class CUP$parserRep$actions {
 																		res = res +1;
 																	}
 																}
+                                                                System.out.println("Numero de registros que coinciden: " + res);
+                                                                RESULT = String.valueOf(res);
 															}else if(valorSubido.tipo == 2){//es cadena
+                                                                RESULT = null;
                                                                 addErrorSemantico(0,0,"Error, No puede comparar numero != cadena");
 																System.out.println("Error, No puede comparar numero != cadena");
 															}
@@ -1312,18 +1351,22 @@ class CUP$parserRep$actions {
 												}else if(tipoClave == 1){ // es de tipo cadena
 													switch(tipoOp){
 														case 1://>
+                                                        RESULT = null;
                                                             addErrorSemantico(0,0,"Error, no se puede comparar > con cadenas");
 															System.out.println("Error, no se puede comparar > con cadenas");
 														break;
 														case 2://<
+                                                        RESULT = null;
                                                         addErrorSemantico(0,0,"Error, no se puede comparar < con cadenas");
 															System.out.println("Error, no se puede comparar < con cadenas");
 														break;
 														case 3://>=
+                                                        RESULT =null;
                                                         addErrorSemantico(0,0,"Error, no se puede comparar >= con cadenas");
 															System.out.println("Error, no se puede comparar >= con cadenas");
 														break;
 														case 4://<=
+                                                        RESULT = null;
                                                         addErrorSemantico(0,0,"Error, no se puede comparar <= con cadenas");
 															System.out.println("Error, no se puede comparar <= con cadenas");
 														break;
@@ -1336,7 +1379,10 @@ class CUP$parserRep$actions {
 																		res = res + 1;
 																	}
 																}
+                                                                System.out.println("Numero de registros que coinciden: " + res);
+                                                                RESULT = String.valueOf(res);
 															}else{//es numero
+                                                                RESULT = null;
                                                                 addErrorSemantico(0,0,"Error, no se puede comparar cadena == numero");
 																System.out.println("Error, no se puede comparar cadena == numero");
 															}
@@ -1350,7 +1396,10 @@ class CUP$parserRep$actions {
 																		res = res + 1;
 																	}
 																}
+                                                                System.out.println("Numero de registros que coinciden: " + res);
+                                                                RESULT = String.valueOf(res);
 															}else{//es numero
+                                                                RESULT = null;
                                                                 addErrorSemantico(0,0,"Error, no se puede comparar cadena == numero");
 																System.out.println("Error, no se puede comparar cadena == numero");
 															}
@@ -1358,6 +1407,7 @@ class CUP$parserRep$actions {
 													}
 												}
 											}else{
+                                                RESULT = null;
                                                 addErrorSemantico(0,0,"Error se subioun nuloa contarSI");
 												System.out.println("Error, se subio un nulo a contarSi");
 											}
@@ -1367,10 +1417,12 @@ class CUP$parserRep$actions {
 										}
 									}
 								}else{
+                                    RESULT = null;
                                     addErrorSemantico(0,0,"La clave buscarda no esite o es nulo el archivo");
 									System.out.println("La clave buscada no existe o es nulo el archivo");
 								}
 							}else{
+                                RESULT=null;
                                 addErrorSemantico(0,0,"La varibale "+a+" no es de tipo archivo");
 								System.out.println("La variable no es de tipo archivo");
 							}
@@ -1378,11 +1430,10 @@ class CUP$parserRep$actions {
 						}
 					}
 				}else{
+                    RESULT = null;
                     addErrorSemantico(0,0,"La variable "+a+" no existe");
 					System.out.println("La variable " + a + " no existe");
 				}
-				System.out.println("Numero de registros que coinciden: " + res);
-				RESULT = String.valueOf(res);
 			
               CUP$parserRep$result = parser.getSymbolFactory().newSymbol("F_CONTARSI",16, ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-10)), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
@@ -1433,7 +1484,11 @@ class CUP$parserRep$actions {
 																		res = res + crearSalida(ar.claves, listaR.get(h));
 																	}
 																}
+                                                                res = res + "]";
+                                                                System.out.println("Resultado:\n" + res);
+                                                                RESULT = res;
 															}else if(valorSubido.tipo == 2){//es cadena
+                                                                RESULT = null;
                                                                 addErrorSemantico(0,0,"Error, No puede comparar numero > cadena");
 																System.out.println("Error, No puede comparar numero > cadena");
 															}
@@ -1448,7 +1503,11 @@ class CUP$parserRep$actions {
 																		res = res + crearSalida(ar.claves, listaR.get(h));
 																	}
 																}
+                                                                res = res + "]";
+                                                                System.out.println("Resultado:\n" + res);
+                                                                RESULT = res;
 															}else if(valorSubido.tipo == 2){//es cadena
+                                                                RESULT = null;
                                                                 addErrorSemantico(0,0,"Error, No puede comparar numero < cadena");
 																System.out.println("Error, No puede comparar numero < cadena");
 															}
@@ -1463,7 +1522,11 @@ class CUP$parserRep$actions {
 																		res = res + crearSalida(ar.claves, listaR.get(h));
 																	}
 																}
+                                                                res = res + "]";
+                                                                System.out.println("Resultado:\n" + res);
+                                                                RESULT = res;
 															}else if(valorSubido.tipo == 2){//es cadena
+                                                                RESULT = null;
                                                                 addErrorSemantico(0,0,"Error, No puede comparar numero >= cadena");
 																System.out.println("Error, No puede comparar numero >= cadena");
 															}
@@ -1478,7 +1541,11 @@ class CUP$parserRep$actions {
 																		res = res + crearSalida(ar.claves, listaR.get(h));
 																	}
 																}
+                                                                res = res + "]";
+                                                                System.out.println("Resultado:\n" + res);
+                                                                RESULT = res;
 															}else if(valorSubido.tipo == 2){//es cadena
+                                                                RESULT = null;
                                                                 addErrorSemantico(0,0,"Error, No puede comparar numero <= cadena");
 																System.out.println("Error, No puede comparar numero <= cadena");
 															}
@@ -1494,7 +1561,11 @@ class CUP$parserRep$actions {
 																		res = res + crearSalida(ar.claves, listaR.get(h));
 																	}
 																}
+                                                                res = res + "]";
+                                                                System.out.println("Resultado:\n" + res);
+                                                                RESULT = res;
 															}else if(valorSubido.tipo == 2){//es cadena
+                                                                RESULT = null;
                                                                 addErrorSemantico(0,0,"Error, No puede comparar numero == cadena");
 																System.out.println("Error, No puede comparar numero == cadena");
 															}
@@ -1509,7 +1580,11 @@ class CUP$parserRep$actions {
 																		res = res + crearSalida(ar.claves, listaR.get(h));
 																	}
 																}
+                                                                res = res + "]";
+                                                                System.out.println("Resultado:\n" + res);
+                                                                RESULT = res;
 															}else if(valorSubido.tipo == 2){//es cadena
+                                                                RESULT= null;
                                                                 addErrorSemantico(0,0,"Error, No puede comparar numero != cadena");
 																System.out.println("Error, No puede comparar numero != cadena");
 															}
@@ -1518,18 +1593,22 @@ class CUP$parserRep$actions {
 												}else if(tipoClave == 1){ // es de tipo cadena
 													switch(tipoOp){
 														case 1://>
+                                                        RESULT= null;
                                                         addErrorSemantico(0,0,"Error, no se puede comparar > con cadenas");
 															System.out.println("Error, no se puede comparar > con cadenas");
 														break;
 														case 2://<
+                                                        RESULT = null;
                                                         addErrorSemantico(0,0,"Error, no se puede comparar < con cadenas");
 															System.out.println("Error, no se puede comparar < con cadenas");
 														break;
 														case 3://>=
+                                                        RESULT = null;
                                                         addErrorSemantico(0,0,"Error, no se puede comparar >= con cadenas");
 															System.out.println("Error, no se puede comparar >= con cadenas");
 														break;
 														case 4://<=
+                                                        RESULT = null;
                                                         addErrorSemantico(0,0,"Error, no se puede comparar <= con cadenas");
 															System.out.println("Error, no se puede comparar <= con cadenas");
 														break;
@@ -1542,7 +1621,11 @@ class CUP$parserRep$actions {
 																		res = res + crearSalida(ar.claves, arreglo);
 																	}
 																}
+                                                                res = res + "]";
+                                                                System.out.println("Resultado:\n" + res);
+                                                                RESULT = res;
 															}else{//es numero
+                                                                RESULT = null;
                                                                 addErrorSemantico(0,0,"Error, no se puede comparar cadena == numero");
 																System.out.println("Error, no se puede comparar cadena == numero");
 															}
@@ -1556,7 +1639,11 @@ class CUP$parserRep$actions {
 																		res = res + crearSalida(ar.claves, arreglo);
 																	}
 																}
+                                                                res = res + "]";
+                                                                System.out.println("Resultado:\n" + res);
+                                                                RESULT = res;
 															}else{//es numero
+                                                                RESULT = null;
                                                                 addErrorSemantico(0,0,"Error, no se puede comparar cadena == numero");
 																System.out.println("Error, no se puede comparar cadena == numero");
 															}
@@ -1564,6 +1651,7 @@ class CUP$parserRep$actions {
 													}
 												}
 											}else{
+                                                RESULT = null;
                                                 addErrorSemantico(0,0,"Error, se subio un nulo a obtenerSi");
 												System.out.println("Error, se subio un nulo a contarSi");
 											}
@@ -1573,10 +1661,12 @@ class CUP$parserRep$actions {
 										}
 									}
 								}else{
+                                    RESULT = null;
                                     addErrorSemantico(0,0,"La clave "+b+" no existe o es nulo el archivo");
 									System.out.println("La clave buscada no existe o es nulo el archivo");
 								}
 							}else{
+                                RESULT = null;
                                 addErrorSemantico(0,0,"La variable "+a+" no es de tipo archivo");
 								System.out.println("La variable no es de tipo archivo");
 							}
@@ -1584,12 +1674,13 @@ class CUP$parserRep$actions {
 						}
 					}
 				}else{
+                    RESULT = null;
                     addErrorSemantico(0,0,"La variable "+a+" no existe");
 					System.out.println("La variable " + a + " no existe");
 				}
-				res = res + "]";
-				System.out.println("Resultado:\n" + res);
-				RESULT = res;
+				//res = res + "]";
+				//System.out.println("Resultado:\n" + res);
+				//RESULT = res;
 			
               CUP$parserRep$result = parser.getSymbolFactory().newSymbol("F_OBTENERSI",17, ((java_cup.runtime.Symbol)CUP$parserRep$stack.elementAt(CUP$parserRep$top-10)), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);
             }
@@ -1605,10 +1696,11 @@ class CUP$parserRep$actions {
 		 
         				if(listaVariables.size() > 0){
         					for(int i = 0; i < listaVariables.size(); i++){
-        						if(listaVariables.get(i).nombre.equals(a)){
+        						if(listaVariables.get(i).nombre.toLowerCase().equals(a.toLowerCase())){
         							if(listaVariables.get(i).tipo == 1){
         								RESULT = listaVariables.get(i).valor.toString();
         							}else{
+                                        RESULT = null;
                                         addErrorSemantico(0,0,"Devuelve un dato que no es cadena");
         								System.out.println("Devuelve un dato que no es cadena");
         							}

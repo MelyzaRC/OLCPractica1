@@ -64,8 +64,7 @@ parser code
 action code
 {:
     //Codigo de acciones
-
-		
+	
     public String cadenaImpresion = "";
 
     public ArrayList<Variable> listaVariables = new ArrayList<Variable>();
@@ -96,9 +95,9 @@ action code
                 //e2.printStackTrace();
             }
         }
-    }else{
+        }else{
         System.out.println("El archivo no existe");
-    }
+        }
                 return ret;
     }
 
@@ -240,7 +239,7 @@ IMPRESION::= R_IMPRIMIR PARENTESISABRE LISTAEXPRESION:a PARENTESISCIERRA PUNTOCO
 ;
 
 LISTAEXPRESION::=   LISTAEXPRESION:a COMA VALOR:b
-										{:
+							{:
 											if(a != null && b != null){
 												switch(b.tipo){
                 					case 1:
@@ -276,10 +275,11 @@ LISTAEXPRESION::=   LISTAEXPRESION:a COMA VALOR:b
                 					break;
                 				}
 											}else{
+                                                RESULT = null;
                                                 addErrorSemantico(0,0,"Se detectó NULL en impresion");
 												System.out.println("nulo en Impresión");
 											}
-										:}
+							:}
                 |   VALOR:a
                 		{: 
                 			if(a != null){
@@ -454,14 +454,14 @@ VALOR::=    NUMERO:a
 						:}
         |   CADENA:a
         		{:
-								FuncionSubir fn = new FuncionSubir(2, a.replace("\"", ""));
+								FuncionSubir fn = new FuncionSubir(2, a.toLowerCase().replace("\"", ""));
 								RESULT = fn;
 						:}
         |   ID:a
         		{:
         				if(listaVariables.size() > 0){
         					for(int i = 0; i < listaVariables.size(); i++){
-        						if(listaVariables.get(i).nombre.equals(a)){
+        						if(listaVariables.get(i).nombre.toLowerCase().equals(a.toLowerCase())){
         							FuncionSubir fn = new FuncionSubir(listaVariables.get(i).tipo, listaVariables.get(i).valor);
 											RESULT = fn;
         						}
@@ -474,6 +474,7 @@ VALOR::=    NUMERO:a
 
 DECLARACION::=  TIPO:a ID:b IGUAL FUNCION:c
                 {:
+                    if(c.valor != null){
                     if(a.equals(String.valueOf(c.tipo))){
                         switch(Integer.parseInt(a)){
                         	case 3:
@@ -513,6 +514,11 @@ DECLARACION::=  TIPO:a ID:b IGUAL FUNCION:c
                         addErrorSemantico(0,0,"Variable: " + b + " no coinciden los tipos");
                         System.out.println("Incorrecto tipos");
                     }
+
+                }else{
+                    addErrorSemantico(0,0,"Variable: " + b + " no se guardará");
+                    System.out.println("Nulo en declaración de variable");
+                }
                 :}
 ;
 
@@ -610,14 +616,14 @@ F_SUMAR::=  R_SUMAR PARENTESISABRE ID:a COMA RUTA:b PARENTESISCIERRA PUNTOCOMA
 				double res = 0;
 				if(verificarVariable(a)){
 					for(int i = 0; i < listaVariables.size(); i++){
-						if(listaVariables.get(i).nombre.equals(a)){
+						if(listaVariables.get(i).nombre.toLowerCase().equals(a.toLowerCase())){
 							if(listaVariables.get(i).tipo == 3){
 								Archivo ar = (Archivo) listaVariables.get(i).valor;
 								if(ar != null){
                                     if(verificarClave(ar.claves, b)){
                                     int indice = 0;
                                     for(int j = 0; j < ar.claves.size(); j++){
-                                            if(ar.claves.get(j).nombre.equals(b)){
+                                            if(ar.claves.get(j).nombre.toLowerCase().equals(b.toLowerCase())){
                                                 if(ar.claves.get(j).tipo == 0){
                                                  indice = j;
                                                     ArrayList<Object[]> regSum = ar.registros;
@@ -625,22 +631,28 @@ F_SUMAR::=  R_SUMAR PARENTESISABRE ID:a COMA RUTA:b PARENTESISCIERRA PUNTOCOMA
                                                        Double su = Double.parseDouble(regSum.get(h)[indice].toString());
                                                        res = res + su;
                                                     }
+                                                    System.out.println("La suma es: " + res);
+                                                    RESULT = String.valueOf(res);
                                              }else{
+                                                RESULT = null;
                                                 addErrorSemantico(0,0,"La clave "+b+" que intenta sumar no es de tipo numérico");
-                                                 System.out.println("La clave que intenta sumar no es de tipo numerico");
+                                                System.out.println("La clave que intenta sumar no es de tipo numerico");
                                              }
                                               break;
                                             }
                                         }
                                     }else{
+                                        RESULT = null;
                                         addErrorSemantico(0,0,"La clave buscada "+ b+" para el metodo sumar no existe");
-                                    System.out.println("La clave buscada no existe");
+                                        System.out.println("La clave buscada no existe");
                                     }
                                 }else{
+                                    RESULT = null;
                                     addErrorSemantico(0,0,"El archivo en "+a+" es nulo");
                                     System.out.println("La variable es nula archivo");
                                 }
 							}else{
+                                RESULT = null;
                                 addErrorSemantico(0,0,"La variable "+a+" no es de tipo archivo");
 								System.out.println("La variable no es de tipo archivo");
 							}
@@ -648,11 +660,11 @@ F_SUMAR::=  R_SUMAR PARENTESISABRE ID:a COMA RUTA:b PARENTESISCIERRA PUNTOCOMA
 						}
 					}
 				}else{
+                    RESULT = null;
                     addErrorSemantico(0,0,"La variable " + a + " no existe");
 					System.out.println("La variable " + a + " no existe");
 				}
-				System.out.println("La suma es: " + res);
-				RESULT = String.valueOf(res);
+				
 			:}
 ;
 
@@ -661,25 +673,28 @@ F_CONTAR::= R_CONTAR PARENTESISABRE ID:a PARENTESISCIERRA PUNTOCOMA
 				int res = 0;
 				if(verificarVariable(a)){
 					for(int i = 0; i < listaVariables.size(); i++){
-						if(listaVariables.get(i).nombre.equals(a)){
+						if(listaVariables.get(i).nombre.toLowerCase().equals(a.toLowerCase())){
 							if(listaVariables.get(i).tipo == 3){
                                 Archivo ar = (Archivo) listaVariables.get(i).valor;
                                 if(ar != null ){
                                     res = ar.registros.size();    
                                 }
+                                System.out.println("El numero de registros es: " + res);
+                                RESULT = String.valueOf(res);
 							}else{
                                 addErrorSemantico(0,0,"La variable "+ a+" No es de tipo archivo");
 								System.out.println("La variable no es de tipo archivo");
+                                RESULT = null;
 							}
 							break;
 						}
 					}
 				}else{
+                    RESULT= null;
                     addErrorSemantico(0,0,"La variable " + a + " no existe");
 					System.out.println("La variable " + a + " no existe");
 				}
-				System.out.println("El numero de registros es: " + res);
-				RESULT = String.valueOf(res);
+				
 			:}
 ;
 
@@ -695,7 +710,7 @@ F_PROMEDIO::= R_PROMEDIO PARENTESISABRE ID:a COMA RUTA:b PARENTESISCIERRA PUNTOC
                                     if(verificarClave(ar.claves, b)){
                                     int indice = 0;
                                     for(int j = 0; j < ar.claves.size(); j++){
-                                        if(ar.claves.get(j).nombre.equals(b)){
+                                        if(ar.claves.get(j).nombre.toLowerCase().equals(b.toLowerCase())){
                                             if(ar.claves.get(j).tipo == 0){
                                                 indice = j;
                                                 ArrayList<Object[]> regSum = ar.registros;
@@ -704,7 +719,10 @@ F_PROMEDIO::= R_PROMEDIO PARENTESISABRE ID:a COMA RUTA:b PARENTESISCIERRA PUNTOC
                                                     res = res + su;
                                                 }
                                                 res = res / regSum.size();
+                                                System.out.println("El promedio es: " + res);
+                                                RESULT = String.valueOf(res);
                                             }else{
+                                                RESULT = null;
                                                 addErrorSemantico(0,0,"La clave "+b+" que intenta sumar no es de tipo numerico");
                                                 System.out.println("La clave que intenta sumar no es de tipo numerico");
                                             }
@@ -712,14 +730,17 @@ F_PROMEDIO::= R_PROMEDIO PARENTESISABRE ID:a COMA RUTA:b PARENTESISCIERRA PUNTOC
                                         }
                                     }
                                 }else{
+                                    RESULT = null;
                                     addErrorSemantico(0,0,"La clave "+a+" no existe");
                                     System.out.println("La clave buscada no existe");
                                 }
                                 }else{
+                                    RESULT = null;
                                     addErrorSemantico(0,0,"Es nula la variable "+ a);
                                     System.out.println("Es nula la variable archivo");
                                 }
 							}else{
+                                RESULT = null;
                                 addErrorSemantico(0,0,"La variable "+a+" no es de tipo archivo");
 								System.out.println("La variable no es de tipo archivo");
 							}
@@ -727,11 +748,11 @@ F_PROMEDIO::= R_PROMEDIO PARENTESISABRE ID:a COMA RUTA:b PARENTESISCIERRA PUNTOC
 						}
 					}
 				}else{
+                    RESULT = null;
                     addErrorSemantico(0,0,"La variable "+a+" no existe");
 					System.out.println("La variable " + a + " no existe");
 				}
-				System.out.println("El promedio es: " + res);
-				RESULT = String.valueOf(res);
+				
 			:}
 ;
 
@@ -765,7 +786,10 @@ F_CONTARSI::= R_CONTARSI PARENTESISABRE ID:a COMA RUTA:b COMA OP:c COMA VALOR:d 
 																		res = res +1;
 																	}
 																}
+                                                                System.out.println("Numero de registros que coinciden: " + res);
+                                                                RESULT = String.valueOf(res);
 															}else if(valorSubido.tipo == 2){//es cadena
+                                                                RESULT = null;
                                                                 addErrorSemantico(0,0,"No puede comparar numero > cadena");
 																System.out.println("Error, No puede comparar numero > cadena");
 															}
@@ -780,7 +804,10 @@ F_CONTARSI::= R_CONTARSI PARENTESISABRE ID:a COMA RUTA:b COMA OP:c COMA VALOR:d 
 																		res = res +1;
 																	}
 																}
+                                                                System.out.println("Numero de registros que coinciden: " + res);
+                                                                RESULT = String.valueOf(res);
 															}else if(valorSubido.tipo == 2){//es cadena
+                                                                RESULT =null;
                                                                 addErrorSemantico(0,0,"Error, No puede comparar numero < cadena");
 																System.out.println("Error, No puede comparar numero < cadena");
 															}
@@ -795,7 +822,10 @@ F_CONTARSI::= R_CONTARSI PARENTESISABRE ID:a COMA RUTA:b COMA OP:c COMA VALOR:d 
 																		res = res +1;
 																	}
 																}
+                                                                System.out.println("Numero de registros que coinciden: " + res);
+                                                                RESULT = String.valueOf(res);
 															}else if(valorSubido.tipo == 2){//es cadena
+                                                                RESULT = null;
                                                                 addErrorSemantico(0,0,"Error, No puede comparar numero >= cadena");
 																System.out.println("Error, No puede comparar numero >= cadena");
 															}
@@ -810,7 +840,10 @@ F_CONTARSI::= R_CONTARSI PARENTESISABRE ID:a COMA RUTA:b COMA OP:c COMA VALOR:d 
 																		res = res +1;
 																	}
 																}
+                                                                System.out.println("Numero de registros que coinciden: " + res);
+                                                                RESULT = String.valueOf(res);
 															}else if(valorSubido.tipo == 2){//es cadena
+                                                                RESULT = null;
                                                                 addErrorSemantico(0,0,"Error, No puede comparar numero <= cadena");
 																System.out.println("Error, No puede comparar numero <= cadena");
 															}
@@ -826,7 +859,10 @@ F_CONTARSI::= R_CONTARSI PARENTESISABRE ID:a COMA RUTA:b COMA OP:c COMA VALOR:d 
 																		res = res +1;
 																	}
 																}
+                                                                System.out.println("Numero de registros que coinciden: " + res);
+                                                                RESULT = String.valueOf(res);
 															}else if(valorSubido.tipo == 2){//es cadena
+                                                                RESULT = null;
                                                                 addErrorSemantico(0,0,"Error, No puede comparar numero == cadena");
 																System.out.println("Error, No puede comparar numero == cadena");
 															}
@@ -841,7 +877,10 @@ F_CONTARSI::= R_CONTARSI PARENTESISABRE ID:a COMA RUTA:b COMA OP:c COMA VALOR:d 
 																		res = res +1;
 																	}
 																}
+                                                                System.out.println("Numero de registros que coinciden: " + res);
+                                                                RESULT = String.valueOf(res);
 															}else if(valorSubido.tipo == 2){//es cadena
+                                                                RESULT = null;
                                                                 addErrorSemantico(0,0,"Error, No puede comparar numero != cadena");
 																System.out.println("Error, No puede comparar numero != cadena");
 															}
@@ -850,18 +889,22 @@ F_CONTARSI::= R_CONTARSI PARENTESISABRE ID:a COMA RUTA:b COMA OP:c COMA VALOR:d 
 												}else if(tipoClave == 1){ // es de tipo cadena
 													switch(tipoOp){
 														case 1://>
+                                                        RESULT = null;
                                                             addErrorSemantico(0,0,"Error, no se puede comparar > con cadenas");
 															System.out.println("Error, no se puede comparar > con cadenas");
 														break;
 														case 2://<
+                                                        RESULT = null;
                                                         addErrorSemantico(0,0,"Error, no se puede comparar < con cadenas");
 															System.out.println("Error, no se puede comparar < con cadenas");
 														break;
 														case 3://>=
+                                                        RESULT =null;
                                                         addErrorSemantico(0,0,"Error, no se puede comparar >= con cadenas");
 															System.out.println("Error, no se puede comparar >= con cadenas");
 														break;
 														case 4://<=
+                                                        RESULT = null;
                                                         addErrorSemantico(0,0,"Error, no se puede comparar <= con cadenas");
 															System.out.println("Error, no se puede comparar <= con cadenas");
 														break;
@@ -874,7 +917,10 @@ F_CONTARSI::= R_CONTARSI PARENTESISABRE ID:a COMA RUTA:b COMA OP:c COMA VALOR:d 
 																		res = res + 1;
 																	}
 																}
+                                                                System.out.println("Numero de registros que coinciden: " + res);
+                                                                RESULT = String.valueOf(res);
 															}else{//es numero
+                                                                RESULT = null;
                                                                 addErrorSemantico(0,0,"Error, no se puede comparar cadena == numero");
 																System.out.println("Error, no se puede comparar cadena == numero");
 															}
@@ -888,7 +934,10 @@ F_CONTARSI::= R_CONTARSI PARENTESISABRE ID:a COMA RUTA:b COMA OP:c COMA VALOR:d 
 																		res = res + 1;
 																	}
 																}
+                                                                System.out.println("Numero de registros que coinciden: " + res);
+                                                                RESULT = String.valueOf(res);
 															}else{//es numero
+                                                                RESULT = null;
                                                                 addErrorSemantico(0,0,"Error, no se puede comparar cadena == numero");
 																System.out.println("Error, no se puede comparar cadena == numero");
 															}
@@ -896,6 +945,7 @@ F_CONTARSI::= R_CONTARSI PARENTESISABRE ID:a COMA RUTA:b COMA OP:c COMA VALOR:d 
 													}
 												}
 											}else{
+                                                RESULT = null;
                                                 addErrorSemantico(0,0,"Error se subioun nuloa contarSI");
 												System.out.println("Error, se subio un nulo a contarSi");
 											}
@@ -905,10 +955,12 @@ F_CONTARSI::= R_CONTARSI PARENTESISABRE ID:a COMA RUTA:b COMA OP:c COMA VALOR:d 
 										}
 									}
 								}else{
+                                    RESULT = null;
                                     addErrorSemantico(0,0,"La clave buscarda no esite o es nulo el archivo");
 									System.out.println("La clave buscada no existe o es nulo el archivo");
 								}
 							}else{
+                                RESULT=null;
                                 addErrorSemantico(0,0,"La varibale "+a+" no es de tipo archivo");
 								System.out.println("La variable no es de tipo archivo");
 							}
@@ -916,11 +968,10 @@ F_CONTARSI::= R_CONTARSI PARENTESISABRE ID:a COMA RUTA:b COMA OP:c COMA VALOR:d 
 						}
 					}
 				}else{
+                    RESULT = null;
                     addErrorSemantico(0,0,"La variable "+a+" no existe");
 					System.out.println("La variable " + a + " no existe");
 				}
-				System.out.println("Numero de registros que coinciden: " + res);
-				RESULT = String.valueOf(res);
 			:}
 ;
 
@@ -954,7 +1005,11 @@ F_OBTENERSI::= R_OBTENERSI PARENTESISABRE ID:a COMA RUTA:b COMA OP:c COMA VALOR:
 																		res = res + crearSalida(ar.claves, listaR.get(h));
 																	}
 																}
+                                                                res = res + "]";
+                                                                System.out.println("Resultado:\n" + res);
+                                                                RESULT = res;
 															}else if(valorSubido.tipo == 2){//es cadena
+                                                                RESULT = null;
                                                                 addErrorSemantico(0,0,"Error, No puede comparar numero > cadena");
 																System.out.println("Error, No puede comparar numero > cadena");
 															}
@@ -969,7 +1024,11 @@ F_OBTENERSI::= R_OBTENERSI PARENTESISABRE ID:a COMA RUTA:b COMA OP:c COMA VALOR:
 																		res = res + crearSalida(ar.claves, listaR.get(h));
 																	}
 																}
+                                                                res = res + "]";
+                                                                System.out.println("Resultado:\n" + res);
+                                                                RESULT = res;
 															}else if(valorSubido.tipo == 2){//es cadena
+                                                                RESULT = null;
                                                                 addErrorSemantico(0,0,"Error, No puede comparar numero < cadena");
 																System.out.println("Error, No puede comparar numero < cadena");
 															}
@@ -984,7 +1043,11 @@ F_OBTENERSI::= R_OBTENERSI PARENTESISABRE ID:a COMA RUTA:b COMA OP:c COMA VALOR:
 																		res = res + crearSalida(ar.claves, listaR.get(h));
 																	}
 																}
+                                                                res = res + "]";
+                                                                System.out.println("Resultado:\n" + res);
+                                                                RESULT = res;
 															}else if(valorSubido.tipo == 2){//es cadena
+                                                                RESULT = null;
                                                                 addErrorSemantico(0,0,"Error, No puede comparar numero >= cadena");
 																System.out.println("Error, No puede comparar numero >= cadena");
 															}
@@ -999,7 +1062,11 @@ F_OBTENERSI::= R_OBTENERSI PARENTESISABRE ID:a COMA RUTA:b COMA OP:c COMA VALOR:
 																		res = res + crearSalida(ar.claves, listaR.get(h));
 																	}
 																}
+                                                                res = res + "]";
+                                                                System.out.println("Resultado:\n" + res);
+                                                                RESULT = res;
 															}else if(valorSubido.tipo == 2){//es cadena
+                                                                RESULT = null;
                                                                 addErrorSemantico(0,0,"Error, No puede comparar numero <= cadena");
 																System.out.println("Error, No puede comparar numero <= cadena");
 															}
@@ -1015,7 +1082,11 @@ F_OBTENERSI::= R_OBTENERSI PARENTESISABRE ID:a COMA RUTA:b COMA OP:c COMA VALOR:
 																		res = res + crearSalida(ar.claves, listaR.get(h));
 																	}
 																}
+                                                                res = res + "]";
+                                                                System.out.println("Resultado:\n" + res);
+                                                                RESULT = res;
 															}else if(valorSubido.tipo == 2){//es cadena
+                                                                RESULT = null;
                                                                 addErrorSemantico(0,0,"Error, No puede comparar numero == cadena");
 																System.out.println("Error, No puede comparar numero == cadena");
 															}
@@ -1030,7 +1101,11 @@ F_OBTENERSI::= R_OBTENERSI PARENTESISABRE ID:a COMA RUTA:b COMA OP:c COMA VALOR:
 																		res = res + crearSalida(ar.claves, listaR.get(h));
 																	}
 																}
+                                                                res = res + "]";
+                                                                System.out.println("Resultado:\n" + res);
+                                                                RESULT = res;
 															}else if(valorSubido.tipo == 2){//es cadena
+                                                                RESULT= null;
                                                                 addErrorSemantico(0,0,"Error, No puede comparar numero != cadena");
 																System.out.println("Error, No puede comparar numero != cadena");
 															}
@@ -1039,18 +1114,22 @@ F_OBTENERSI::= R_OBTENERSI PARENTESISABRE ID:a COMA RUTA:b COMA OP:c COMA VALOR:
 												}else if(tipoClave == 1){ // es de tipo cadena
 													switch(tipoOp){
 														case 1://>
+                                                        RESULT= null;
                                                         addErrorSemantico(0,0,"Error, no se puede comparar > con cadenas");
 															System.out.println("Error, no se puede comparar > con cadenas");
 														break;
 														case 2://<
+                                                        RESULT = null;
                                                         addErrorSemantico(0,0,"Error, no se puede comparar < con cadenas");
 															System.out.println("Error, no se puede comparar < con cadenas");
 														break;
 														case 3://>=
+                                                        RESULT = null;
                                                         addErrorSemantico(0,0,"Error, no se puede comparar >= con cadenas");
 															System.out.println("Error, no se puede comparar >= con cadenas");
 														break;
 														case 4://<=
+                                                        RESULT = null;
                                                         addErrorSemantico(0,0,"Error, no se puede comparar <= con cadenas");
 															System.out.println("Error, no se puede comparar <= con cadenas");
 														break;
@@ -1063,7 +1142,11 @@ F_OBTENERSI::= R_OBTENERSI PARENTESISABRE ID:a COMA RUTA:b COMA OP:c COMA VALOR:
 																		res = res + crearSalida(ar.claves, arreglo);
 																	}
 																}
+                                                                res = res + "]";
+                                                                System.out.println("Resultado:\n" + res);
+                                                                RESULT = res;
 															}else{//es numero
+                                                                RESULT = null;
                                                                 addErrorSemantico(0,0,"Error, no se puede comparar cadena == numero");
 																System.out.println("Error, no se puede comparar cadena == numero");
 															}
@@ -1077,7 +1160,11 @@ F_OBTENERSI::= R_OBTENERSI PARENTESISABRE ID:a COMA RUTA:b COMA OP:c COMA VALOR:
 																		res = res + crearSalida(ar.claves, arreglo);
 																	}
 																}
+                                                                res = res + "]";
+                                                                System.out.println("Resultado:\n" + res);
+                                                                RESULT = res;
 															}else{//es numero
+                                                                RESULT = null;
                                                                 addErrorSemantico(0,0,"Error, no se puede comparar cadena == numero");
 																System.out.println("Error, no se puede comparar cadena == numero");
 															}
@@ -1085,6 +1172,7 @@ F_OBTENERSI::= R_OBTENERSI PARENTESISABRE ID:a COMA RUTA:b COMA OP:c COMA VALOR:
 													}
 												}
 											}else{
+                                                RESULT = null;
                                                 addErrorSemantico(0,0,"Error, se subio un nulo a obtenerSi");
 												System.out.println("Error, se subio un nulo a contarSi");
 											}
@@ -1094,10 +1182,12 @@ F_OBTENERSI::= R_OBTENERSI PARENTESISABRE ID:a COMA RUTA:b COMA OP:c COMA VALOR:
 										}
 									}
 								}else{
+                                    RESULT = null;
                                     addErrorSemantico(0,0,"La clave "+b+" no existe o es nulo el archivo");
 									System.out.println("La clave buscada no existe o es nulo el archivo");
 								}
 							}else{
+                                RESULT = null;
                                 addErrorSemantico(0,0,"La variable "+a+" no es de tipo archivo");
 								System.out.println("La variable no es de tipo archivo");
 							}
@@ -1105,12 +1195,13 @@ F_OBTENERSI::= R_OBTENERSI PARENTESISABRE ID:a COMA RUTA:b COMA OP:c COMA VALOR:
 						}
 					}
 				}else{
+                    RESULT = null;
                     addErrorSemantico(0,0,"La variable "+a+" no existe");
 					System.out.println("La variable " + a + " no existe");
 				}
-				res = res + "]";
-				System.out.println("Resultado:\n" + res);
-				RESULT = res;
+				//res = res + "]";
+				//System.out.println("Resultado:\n" + res);
+				//RESULT = res;
 			:}
 ;
 
@@ -1118,10 +1209,11 @@ RUTA::= ID:a
         {: 
         				if(listaVariables.size() > 0){
         					for(int i = 0; i < listaVariables.size(); i++){
-        						if(listaVariables.get(i).nombre.equals(a)){
+        						if(listaVariables.get(i).nombre.toLowerCase().equals(a.toLowerCase())){
         							if(listaVariables.get(i).tipo == 1){
         								RESULT = listaVariables.get(i).valor.toString();
         							}else{
+                                        RESULT = null;
                                         addErrorSemantico(0,0,"Devuelve un dato que no es cadena");
         								System.out.println("Devuelve un dato que no es cadena");
         							}
@@ -1151,8 +1243,6 @@ Notas:
 
 -En el FuncionSubir que usé para la función contarSi el 1 representa al numero y el 2 a la cadena
 
-
-
 num < num
 num > num
 num <= num
@@ -1160,9 +1250,7 @@ num >= num
 num | cad == num | cad
 num | cad != num | cad
 
-
 En las variables 1 numero 2 cadena 3 archivo
 En las claves listado de claves 0 numero 1 cadena
-
 
 */

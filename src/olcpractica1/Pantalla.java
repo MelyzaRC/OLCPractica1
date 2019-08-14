@@ -66,7 +66,6 @@ public class Pantalla extends javax.swing.JFrame {
     FileWriter fileWriter;
     String aux, aux2;
     public ArrayList<Errores> listaErrores = new ArrayList<Errores>();
-    File directorio = new File("resultados");
     public ArrayList<Variable> entorno = new ArrayList<Variable>();
     BufferedImage imagenIc = null;
 
@@ -83,34 +82,19 @@ public class Pantalla extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         //titulo
 
-        this.setTitle(
-                "OLC Práctica No. 1");
+        this.setTitle("OLC Práctica No. 1");
 
         //asignando imagenes a los botones
-        ponerIconos(
-                "nueva", jButton2);
-        ponerIconos(
-                "abrir", jButton3);
-        ponerIconos(
-                "limpiar", jButton4);
-        ponerIconos(
-                "gcomo", jButton5);
-        ponerIconos(
-                "analizar", btn_cargarArchivo);
-        ponerIconos(
-                "guardar", jButton6);
-        ponerIconos(
-                "limpiar", jButton1);
-        ponerIconos(
-                "errores", jButton8);
-        ponerIconos(
-                "graficas", jButton9);
-        ponerIconos(
-                "salir", jButton7);
-
-        
-        //creando la carpeta de salidas
-        directorio.mkdir();
+        ponerIconos("nueva", jButton2);
+        ponerIconos("abrir", jButton3);
+        ponerIconos("limpiar", jButton4);
+        ponerIconos("gcomo", jButton5);
+        ponerIconos("analizar", btn_cargarArchivo);
+        ponerIconos("guardar", jButton6);
+        ponerIconos("limpiar", jButton1);
+        ponerIconos("errores", jButton8);
+        ponerIconos("graficas", jButton9);
+        ponerIconos("salir", jButton7);
 
     //efecto de colorcito de los botones
         jButton2.addMouseListener(new MouseAdapter() {
@@ -649,6 +633,7 @@ public class Pantalla extends javax.swing.JFrame {
             crearSintacticos();
             crearSemanticos();
         }
+        mensaje("A continuación se abrirá una ventana en su navegador donde verá el reporte de errores");
     }//GEN-LAST:event_jButton8ActionPerformed
 
     //imagenes
@@ -668,7 +653,7 @@ public class Pantalla extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void close() {
-        ImageIcon imageIcon = new ImageIcon("src/resources/" + "salir" + ".png");
+        ImageIcon imageIcon = new ImageIcon("resources/" + "salir" + ".png");
         Image image = imageIcon.getImage();
         Image newimg = image.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
@@ -763,7 +748,7 @@ public class Pantalla extends javax.swing.JFrame {
     }
 
     public void ponerIconos(String st, JButton boton) {
-        ImageIcon imageIcon = new ImageIcon("src/resources/" + st + ".png");
+        ImageIcon imageIcon = new ImageIcon("resources/" + st + ".png");
         Image image = imageIcon.getImage();
         Image newimg = image.getScaledInstance(35, 35, java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
@@ -771,7 +756,7 @@ public class Pantalla extends javax.swing.JFrame {
     }
 
     public void mensaje(String cad) {
-        ImageIcon imageIcon = new ImageIcon("src/resources/" + "notificacion" + ".png");
+        ImageIcon imageIcon = new ImageIcon("resources/" + "notificacion" + ".png");
         Image image = imageIcon.getImage();
         Image newimg = image.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
@@ -781,7 +766,7 @@ public class Pantalla extends javax.swing.JFrame {
     @Override
     public Image getIconImage() {
         Image retValue = Toolkit.getDefaultToolkit().
-                getImage(ClassLoader.getSystemResource("resources/app.png"));
+                getImage("resources/app.png");
         return retValue;
     }
 
