@@ -1,0 +1,35 @@
+/*
+*Archivo de entrada
+*Compi1
+*Practica1
+*/
+
+
+//Declaración de claves
+
+claves =
+[
+	 "Correlativo" 	//tipo Numerico
+	,"Nombre"	//tipo Cadena
+	,"Apellido"	//tipo Cadena
+	,"Edad"		//tipo Numerico
+	,"Profesion"	//tipo Cadena
+	,"Direccion"	//tipo Cadena
+	,"Estatura"	//tipo Numerico
+]
+
+registros =
+[
+	{1,"Jose","Alvarez",10,"Maestro","Capital",1.56}
+	{2,"Juan","Bermudez",20,"Policia","Huehuetenango",1.78}
+	{3,"Maria","Contreras",22,"Piloto","Izabal",1.60}
+	{4,"Clara","Dominguez",11,"Ama de Casa","Chimaltenango",1.45}
+	{5,"Kevin","Estrada",12,"Constructor","Capital",1.67}
+	{6,"Nicolas","Fernandez",15,"Ingeniero","Capital",1.67}
+	{7,"Flor","Gonzalez",23,"Arquitecta","Mixco",1.45}
+	{8,"Rosa","Ibañez",24,"Panadera","Petén",1.70}
+	{9,"Julio","Lopez",56,"Cocinera","Jutiapa",1.98}
+	{10,"Edgar","Miranda",43,"ingeniero","Jalapa",1.59}
+	{11,"Melyza","Ortiz",67,"Conserje","Alta Verapaz",1.47}
+	{12,"Alejandra","Perez",19,"Abogada","Quiché", 1.58}
+]

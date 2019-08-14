@@ -1,0 +1,43 @@
+body{
+	background: #1B7E3B;
+	font-family: Arial;
+}
+
+table{
+	background-color: #84BDCC;
+	text-align: left;
+	border-collapse: collapse;
+	width: 75%; 
+	color:#0D667D;
+}
+
+th, td{
+	padding: 20px;
+	text-align: center;
+}
+
+
+
+tr:hover td{
+	border-bottom: solid 10px #84BDCC;
+	border-top: solid 10px #84BDCC;
+}
+
+table td:hover{
+	font-size: 50px;
+	background: #074B5D;
+	color: #94E2F7;
+	border-bottom: solid 10px #074B5D;
+	border-top: solid 10px #074B5D;
+}
+
+
+a{
+	color:#0D667D;
+	text-decoration: none;
+}
+
+a:hover{
+font-size: 50px;
+color: #94E2F7;
+}

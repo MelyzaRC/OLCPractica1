@@ -24,6 +24,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -63,33 +66,55 @@ public class Pantalla extends javax.swing.JFrame {
     FileWriter fileWriter;
     String aux, aux2;
     public ArrayList<Errores> listaErrores = new ArrayList<Errores>();
-    File directorio=new File("resultados"); 
+    File directorio = new File("resultados");
     public ArrayList<Variable> entorno = new ArrayList<Variable>();
-    
+    BufferedImage imagenIc = null;
 
     public Pantalla() {
         initComponents();
+        try {
+            imagenIc = ImageIO.read(new File("src/resources/iconoapp.png"));
+        } catch (IOException ex) {
+            
+        }
+        setIconImage(imagenIc);
         //centrar la pantalla
+
         this.setLocationRelativeTo(null);
         //titulo
-        this.setTitle("OLC Práctica No. 1");
+
+        this.setTitle(
+                "OLC Práctica No. 1");
 
         //asignando imagenes a los botones
-        ponerIconos("nueva", jButton2);
-        ponerIconos("abrir", jButton3);
-        ponerIconos("limpiar", jButton4);
-        ponerIconos("gcomo", jButton5);
-        ponerIconos("analizar", btn_cargarArchivo);
-        ponerIconos("guardar", jButton6);
-        ponerIconos("limpiar", jButton1);
-        ponerIconos("errores", jButton8);
-        ponerIconos("graficas", jButton9);
-        ponerIconos("salir", jButton7);
+        ponerIconos(
+                "nueva", jButton2);
+        ponerIconos(
+                "abrir", jButton3);
+        ponerIconos(
+                "limpiar", jButton4);
+        ponerIconos(
+                "gcomo", jButton5);
+        ponerIconos(
+                "analizar", btn_cargarArchivo);
+        ponerIconos(
+                "guardar", jButton6);
+        ponerIconos(
+                "limpiar", jButton1);
+        ponerIconos(
+                "errores", jButton8);
+        ponerIconos(
+                "graficas", jButton9);
+        ponerIconos(
+                "salir", jButton7);
 
+        
         //creando la carpeta de salidas
-        directorio.mkdir(); 
-        //efecto de colorcito de los botones
+        directorio.mkdir();
+
+    //efecto de colorcito de los botones
         jButton2.addMouseListener(new MouseAdapter() {
+
             public void mouseEntered(MouseEvent arg0) {
                 Color customColor = new Color(204, 204, 204);
                 jButton2.setBackground((customColor));
@@ -215,7 +240,6 @@ public class Pantalla extends javax.swing.JFrame {
 
         //evitar que la pantalla se cierre en la x 
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-
     }
 
     @SuppressWarnings("unchecked")
@@ -486,6 +510,7 @@ public class Pantalla extends javax.swing.JFrame {
             if (parser.enr == 0) {//quiere decir que no tuvo errores no recuperables o sea que si puede hacer el reporte
                 if (parser.er != 0) {
                     mensaje("Se han detectado errores r");
+                    jTextArea1.setText(parser.cadenaImprimir);
                 } else {
                     mensaje("Análisis realizado");
                     jTextArea1.setText(parser.cadenaImprimir);
@@ -495,6 +520,17 @@ public class Pantalla extends javax.swing.JFrame {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        
+        if (listaErrores.size() > 0) {
+            crearLexicos();
+            crearSintacticos();
+            crearSemanticos();
+        } else {
+            mensaje("No hay errores");
+            crearLexicos();
+            crearSintacticos();
+            crearSemanticos();
         }
     }//GEN-LAST:event_btn_cargarArchivoActionPerformed
 
@@ -558,7 +594,7 @@ public class Pantalla extends javax.swing.JFrame {
                     jTabbedPane1.getSelectedComponent().setName(archivo.getPath());
                     mensaje("Archivo guardado exitosamente");
                 }
-            }else{
+            } else {
                 mensaje("Ha ocurrido un error");
             }
         } catch (IOException e) {
@@ -603,26 +639,21 @@ public class Pantalla extends javax.swing.JFrame {
 
     //errores
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        if(listaErrores.size() > 0){
-            String cad = "";
-            for(int i = 0; i < listaErrores.size(); i++){
-                cad = cad + "L:" + listaErrores.get(i).linea + " C:" + listaErrores.get(i).columna + " A: " + listaErrores.get(i).archivo + " -->" + listaErrores.get(i).descripcion +"\n";
-            }
-            mensaje(cad);
-        }else{
+        if (listaErrores.size() > 0) {
+            crearLexicos();
+            crearSintacticos();
+            crearSemanticos();
+        } else {
             mensaje("No hay errores");
+            crearLexicos();
+            crearSintacticos();
+            crearSemanticos();
         }
     }//GEN-LAST:event_jButton8ActionPerformed
 
     //imagenes
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-/*        mensaje("Se abrirá la carpeta que contiene las imágenes generadas durante el análisis");
-        try {
-            Desktop.getDesktop().open(new File("resultados"));
-        } catch (IOException ex) {
-            mensaje("Error al abrir la carpeta");
-        }*/
-        System.out.println(obtenerTexto("nfoasd.dat"));
+        mensaje("Las imagenes generadas deben ser buscadas en el sistema de archivos de su dispositivo");
     }//GEN-LAST:event_jButton9ActionPerformed
 
     //acerca de
@@ -680,29 +711,29 @@ public class Pantalla extends javax.swing.JFrame {
         BufferedReader br = null;
         String ret = "";
         File f = new File(ruta);
-        
-        if(f.exists()){
-        
+
+        if (f.exists()) {
+
             try {
-            archivo = new File(ruta);
-            fr = new FileReader(archivo);
-            br = new BufferedReader(fr);
-            String linea;
-            while ((linea = br.readLine()) != null) {
-                ret = ret + linea + "\n";
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (null != fr) {
-                    fr.close();
+                archivo = new File(ruta);
+                fr = new FileReader(archivo);
+                br = new BufferedReader(fr);
+                String linea;
+                while ((linea = br.readLine()) != null) {
+                    ret = ret + linea + "\n";
                 }
-            } catch (Exception e2) {
-                e2.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (null != fr) {
+                        fr.close();
+                    }
+                } catch (Exception e2) {
+                    e2.printStackTrace();
+                }
             }
-        }
-        }else{
+        } else {
             mensaje("No existe el archivo");
         }
         return ret;
@@ -754,6 +785,239 @@ public class Pantalla extends javax.swing.JFrame {
         return retValue;
     }
 
+    public void crearLexicos() {
+        String cad1Lexicos = "<!DOCTYPE html>\n"
+                + "<html>\n"
+                + "<head>\n"
+                + "	<meta charset=\"utf-8\">\n"
+                + "	<title>Errores Léxicos</title>\n"
+                + "	<link rel=\"stylesheet\" type=\"text/css\" href=\"css/estilos.css\">\n"
+                + "</head>\n"
+                + "<body>"
+                + "<center>\n"
+                + "			<br>\n"
+                + "			<br>\n"
+                + "			<br>\n"
+                + "			<h1><font color= yellow>Reporte de Errores Léxicos</font></h1>"
+                + "			<br>\n"
+                + "			<br>\n"
+                + "			<br>\n"
+                + "<table>"
+                + "<thead>\n"
+                + "			<tr>\n"
+                + "				<th>No</th>\n"
+                + "				<th>Línea</th>\n"
+                + "				<th>Columna</th>\n"
+                + "				<th>Archivo</th>\n"
+                + "				<th>Descripcion</th>\n"
+                + "			</tr>\n"
+                + "		</thead>";
+        String medio = "";
+        int iterador = 1;
+        if (listaErrores.size() > 0) {
+            for (int i = 0; i < listaErrores.size(); i++) {
+                Errores newError = listaErrores.get(i);
+                if (newError.tipo == 1) {
+                    medio = medio + "<tr>"
+                            + "<td>" + iterador + "</td>"
+                            + "<td>" + newError.linea + "</td>"
+                            + "<td>" + newError.columna + "</td>";
+                    iterador++;
+                    if (newError.archivo == null) {
+                        medio = medio + "<td>" + "No aplica" + "</td>";
+                    } else {
+                        medio = medio + "<td>" + newError.archivo + "</td>";
+                    }
+                    medio = medio + "<td>" + newError.descripcion + "</td>"
+                            + "</tr>";
+                }
+            }
+        }
+        String cad2Lexicos = "</table>\n"
+                + "<br>"
+                + "<br>"
+                + "<a href=\"index.html\"> Regresar </a>"
+                + "</center>"
+                + "</body>\n"
+                + "</html>";
+
+        String finalArchivo = cad1Lexicos + medio + cad2Lexicos;
+        
+        archivo = new File("lexicos.html");
+        if(archivo.exists()){
+            archivo.delete();
+        }
+        archivo = new File("lexicos.html");
+        if (archivo != null) {
+            try {
+                fileWriter = new FileWriter(archivo);
+                fileWriter.write(finalArchivo);
+                fileWriter.close();
+
+            } catch (IOException ex) {
+                Logger.getLogger(Pantalla.class
+                        .getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+    }
+
+    public void crearSintacticos() {
+        String cad1Sintacticos = "<!DOCTYPE html>\n"
+                + "<html>\n"
+                + "<head>\n"
+                + "	<meta charset=\"utf-8\">\n"
+                + "	<title>Errores Sintácticos</title>\n"
+                + "	<link rel=\"stylesheet\" type=\"text/css\" href=\"css/estilos2.css\">\n"
+                + "</head>\n"
+                + "<body>"
+                + "<center>\n"
+                + "			<br>\n"
+                + "			<br>\n"
+                + "			<br>\n"
+                + "			<h1><font color= yellow>Reporte de Errores Sintácticos</font></h1>"
+                + "			<br>\n"
+                + "			<br>\n"
+                + "			<br>\n"
+                + "<table>"
+                + "<thead>\n"
+                + "			<tr>\n"
+                + "				<th>No</th>\n"
+                + "				<th>Línea</th>\n"
+                + "				<th>Columna</th>\n"
+                + "				<th>Archivo</th>\n"
+                + "				<th>Descripcion</th>\n"
+                + "			</tr>\n"
+                + "		</thead>";
+        String medio = "";
+        int iterador = 1;
+        if (listaErrores.size() > 0) {
+            for (int i = 0; i < listaErrores.size(); i++) {
+                Errores newError = listaErrores.get(i);
+                if (newError.tipo == 2) {
+                    medio = medio + "<tr>"
+                            + "<td>" + iterador + "</td>"
+                            + "<td>" + newError.linea + "</td>"
+                            + "<td>" + newError.columna + "</td>";
+                    iterador++;
+                    if (newError.archivo == null) {
+                        medio = medio + "<td>" + "No aplica" + "</td>";
+                    } else {
+                        medio = medio + "<td>" + newError.archivo + "</td>";
+                    }
+                    medio = medio + "<td>Recuperable: " + newError.descripcion + "</td>"
+                            + "</tr>";
+                }
+                if (newError.tipo == 3) {
+                    medio = medio + "<tr>"
+                            + "<td>" + i + "</td>"
+                            + "<td>" + newError.linea + "</td>"
+                            + "<td>" + newError.columna + "</td>";
+                    iterador++;
+                    if (newError.archivo == null) {
+                        medio = medio + "<td>" + "No aplica" + "</td>";
+                    } else {
+                        medio = medio + "<td>" + newError.archivo + "</td>";
+                    }
+                    medio = medio + "<td>No recuperable: " + newError.descripcion + "</td>"
+                            + "</tr>";
+                }
+            }
+        }
+        String cad2Sintacticos = "</table>\n"
+                + "<br>"
+                + "<br>"
+                + "<a href=\"index.html\"> Regresar </a>"
+                + "</center>"
+                + "</body>\n"
+                + "</html>";
+
+        String finalArchivo = cad1Sintacticos + medio + cad2Sintacticos;
+        archivo = new File("sintacticos.html");
+        if (archivo != null) {
+            try {
+                fileWriter = new FileWriter(archivo);
+                fileWriter.write(finalArchivo);
+                fileWriter.close();
+
+            } catch (IOException ex) {
+                Logger.getLogger(Pantalla.class
+                        .getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+    }
+
+    public void crearSemanticos() {
+        String cad1Semanticos = "<!DOCTYPE html>\n"
+                + "<html>\n"
+                + "<head>\n"
+                + "	<meta charset=\"utf-8\">\n"
+                + "	<title>Errores Semánticos</title>\n"
+                + "	<link rel=\"stylesheet\" type=\"text/css\" href=\"css/estilos3.css\">\n"
+                + "</head>\n"
+                + "<body>"
+                + "<center>\n"
+                + "			<br>\n"
+                + "			<br>\n"
+                + "			<br>\n"
+                + "			<h1><font color= yellow>Reporte de Errores Semánticos</font></h1>"
+                + "			<br>\n"
+                + "			<br>\n"
+                + "			<br>\n"
+                + "<table>"
+                + "<thead>\n"
+                + "			<tr>\n"
+                + "				<th>No</th>\n"
+                + "				<th>Archivo</th>\n"
+                + "				<th>Descripcion</th>\n"
+                + "			</tr>\n"
+                + "		</thead>";
+        String medio = "";
+        if (listaErrores.size() > 0) {
+            int iterador = 1;
+            for (int i = 0; i < listaErrores.size(); i++) {
+                Errores newError = listaErrores.get(i);
+                if (newError.tipo == 10) {
+
+                    medio = medio + "<tr>"
+                            + "<td>" + iterador + "</td>";
+                    iterador++;
+                    if (newError.archivo == null) {
+                        medio = medio + "<td>" + "No aplica" + "</td>";
+                    } else {
+                        medio = medio + "<td>" + newError.archivo + "</td>";
+                    }
+                    medio = medio + "<td>" + newError.descripcion + "</td>"
+                            + "</tr>";
+                }
+
+            }
+        }
+        String cad2Semanticos = "</table>\n"
+                + "<br>"
+                + "<br>"
+                + "<a href=\"index.html\"> Regresar </a>"
+                + "</center>"
+                + "</body>\n"
+                + "</html>";
+
+        String finalArchivo = cad1Semanticos + medio + cad2Semanticos;
+        archivo = new File("semanticos.html");
+        if (archivo != null) {
+            try {
+                fileWriter = new FileWriter(archivo);
+                fileWriter.write(finalArchivo);
+                fileWriter.close();
+
+            } catch (IOException ex) {
+                Logger.getLogger(Pantalla.class
+                        .getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+    }
+
     public static void main(String args[]) {
 
         try {
@@ -761,16 +1025,21 @@ public class Pantalla extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Pantalla.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Pantalla.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Pantalla.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Pantalla.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Pantalla.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Pantalla.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Pantalla.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Pantalla.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 

@@ -67,10 +67,11 @@ COMENTARIOM ="/*""/"*([^*/]|[^*]"/"|"*"[^/])*"*"*"*/"
 <YYINITIAL> {COMENTARIOM}       { /*Comentario ignorado*/ }
 
 <YYINITIAL> . {
-        //String errLex = "Error léxico : '"+yytext()+"' en la línea: "+(yyline+1)+" y columna: "+(yycolumn+1);
-        //System.out.println(errLex);
-        Errores nuevoError = new Errores(yyline+1, yycolumn+1, 1, "El caracter " + yytext() + " no pertenece al lenguaje", "","", archivoActual);
+        String errLex = "Error léxico : '"+yytext()+"' en la línea: "+(yyline+1)+" y columna: "+(yycolumn+1);
+        System.out.println(errLex);
+       Errores nuevoError = new Errores(yyline+1, yycolumn+1, 1, "El caracter " + yytext() + " no pertenece al lenguaje", "","", archivoActual);
         listaErrores.add(nuevoError);
+        yybegin(YYINITIAL);
 }
 
 <CADENA> {
@@ -81,7 +82,7 @@ COMENTARIOM ="/*""/"*([^*/]|[^*]"/"|"*"[^/])*"*"*"*/"
                     String tmp=cadena; cadena="";  
                     System.out.println("Se esperaba cierre de cadena (\").");
                     Errores nuevoError = new Errores(yyline+1, yycolumn+1, 1, "Se esperaba cierre de cadena [\"]", "","", archivoActual);
-        			listaErrores.add(nuevoError); 
+                    listaErrores.add(nuevoError); 
                     yybegin(YYINITIAL);
                 }
         [^\"]   {

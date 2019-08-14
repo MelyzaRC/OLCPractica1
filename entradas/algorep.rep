@@ -1,0 +1,21 @@
+/*
+*Archivo de entrada
+*Compi 1
+*Práctica 1
+*/
+
+Archivo var1 = leerArchivo("entradas/algo.dat");
+imprimir("Información del archivo:");
+imprimir(var1);
+
+Numerico var2 = contar(var1);
+imprimir("El número de elementos es: ", var2);
+
+Numerico var3 = promedio(var1, "Estatura");
+imprimir("El promedio de estaturas es: ", var2);
+
+Cadena var4 = obtenerSi(var1, "Profesion",==,"Ingeniero");
+imprimir("Ingenieros:");
+imprimir(var4);
+
+graficar("Imagen1", "Imagen No. 1",var1,"Nombre", "Edad");
