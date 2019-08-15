@@ -192,12 +192,13 @@ public class parserRep extends java_cup.runtime.lr_parser {
   public short[][] reduce_table() {return _reduce_table;}
 
   /** Instance of action encapsulation class. */
-  protected CUP$parserRep$actions action_obj;
+  public  CUP$parserRep$actions action_obj;
 
   /** Action encapsulation object initializer. */
   protected void init_actions()
     {
       action_obj = new CUP$parserRep$actions(this);
+      action_obj.listaVariables = this.vR;
     }
 
   /** Invoke a user supplied parse action. */
@@ -251,7 +252,7 @@ public class parserRep extends java_cup.runtime.lr_parser {
 
 /** Cup generated class to encapsulate user supplied action code.*/
 @SuppressWarnings({"rawtypes", "unchecked", "unused"})
-class CUP$parserRep$actions {
+public class CUP$parserRep$actions {
 
 
     //Codigo de acciones

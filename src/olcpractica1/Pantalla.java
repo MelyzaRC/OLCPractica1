@@ -72,9 +72,9 @@ public class Pantalla extends javax.swing.JFrame {
     public Pantalla() {
         initComponents();
         try {
-            imagenIc = ImageIO.read(new File("src/resources/iconoapp.png"));
+            imagenIc = ImageIO.read(new File("resources/iconoapp.png"));
         } catch (IOException ex) {
-            
+
         }
         setIconImage(imagenIc);
         //centrar la pantalla
@@ -96,7 +96,7 @@ public class Pantalla extends javax.swing.JFrame {
         ponerIconos("graficas", jButton9);
         ponerIconos("salir", jButton7);
 
-    //efecto de colorcito de los botones
+        //efecto de colorcito de los botones
         jButton2.addMouseListener(new MouseAdapter() {
 
             public void mouseEntered(MouseEvent arg0) {
@@ -493,25 +493,25 @@ public class Pantalla extends javax.swing.JFrame {
             parser.parse();
             if (parser.enr == 0) {//quiere decir que no tuvo errores no recuperables o sea que si puede hacer el reporte
                 if (parser.er != 0) {
-                    mensaje("Se han detectado errores r");
+                    mensaje("Se han detectado errores");
                     jTextArea1.setText(parser.cadenaImprimir);
                 } else {
                     mensaje("Análisis realizado");
                     jTextArea1.setText(parser.cadenaImprimir);
                 }
             } else {
-                mensaje("Se han detectado errores nr");
+                mensaje("Se han detectado errores");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         if (listaErrores.size() > 0) {
             crearLexicos();
             crearSintacticos();
             crearSemanticos();
         } else {
-            mensaje("No hay errores");
+            //mensaje("No hay errores");
             crearLexicos();
             crearSintacticos();
             crearSemanticos();
@@ -520,7 +520,8 @@ public class Pantalla extends javax.swing.JFrame {
 
     //llamar pantalla edicion
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-
+PantallaEdicion nPE = new PantallaEdicion();
+nPE.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     //limpiar consola
@@ -628,12 +629,23 @@ public class Pantalla extends javax.swing.JFrame {
             crearSintacticos();
             crearSemanticos();
         } else {
-            mensaje("No hay errores");
+            //mensaje("No hay errores");
             crearLexicos();
             crearSintacticos();
             crearSemanticos();
         }
         mensaje("A continuación se abrirá una ventana en su navegador donde verá el reporte de errores");
+
+        try {
+
+            File objetofile = new File("index.html");
+            Desktop.getDesktop().open(objetofile);
+
+        } catch (IOException ex) {
+
+            mensaje("No se ha podido abrir el reporte de errores");
+
+        }
     }//GEN-LAST:event_jButton8ActionPerformed
 
     //imagenes
@@ -827,9 +839,9 @@ public class Pantalla extends javax.swing.JFrame {
                 + "</html>";
 
         String finalArchivo = cad1Lexicos + medio + cad2Lexicos;
-        
+
         archivo = new File("lexicos.html");
-        if(archivo.exists()){
+        if (archivo.exists()) {
             archivo.delete();
         }
         archivo = new File("lexicos.html");
