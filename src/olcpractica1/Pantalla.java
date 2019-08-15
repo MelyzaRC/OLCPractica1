@@ -11,9 +11,11 @@ import analizadoresRep.parserRep;
 import analizadoresRep.scannerRep;
 import java.awt.Color;
 import java.awt.Desktop;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.HeadlessException;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -37,12 +39,19 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
 
 //imports para freeChart
 import org.jfree.chart.ChartFactory;
@@ -72,7 +81,7 @@ public class Pantalla extends javax.swing.JFrame {
     public Pantalla() {
         initComponents();
         try {
-            imagenIc = ImageIO.read(new File("resources/iconoapp.png"));
+            imagenIc = ImageIO.read(new File("iconoapp.png"));
         } catch (IOException ex) {
 
         }
@@ -220,8 +229,8 @@ public class Pantalla extends javax.swing.JFrame {
         });
 
         //crear una pestaña por defecto
+        //crearP();
         crearPestana();
-
         //evitar que la pantalla se cierre en la x 
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
     }
@@ -250,6 +259,7 @@ public class Pantalla extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
 
@@ -384,6 +394,14 @@ public class Pantalla extends javax.swing.JFrame {
             }
         });
         jMenu2.add(jMenuItem4);
+
+        jMenuItem2.setText("Reiniciar");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem2);
 
         jMenuBar1.add(jMenu2);
 
@@ -520,8 +538,8 @@ public class Pantalla extends javax.swing.JFrame {
 
     //llamar pantalla edicion
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-PantallaEdicion nPE = new PantallaEdicion();
-nPE.setVisible(true);
+        PantallaEdicion nPE = new PantallaEdicion();
+        nPE.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     //limpiar consola
@@ -532,6 +550,7 @@ nPE.setVisible(true);
     //nueva pestaña
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         crearPestana();
+        //crearP();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     //abrir archivo
@@ -554,7 +573,6 @@ nPE.setVisible(true);
                 scroll = (JScrollPane) jTabbedPane1.getSelectedComponent();
                 txtArea = (JTextArea) scroll.getViewport().getComponent(0);
                 txtArea.setText(aux2);
-
                 jTabbedPane1.setTitleAt(jTabbedPane1.getSelectedIndex(), archivo.getName());//Solo jalo el nombre del archivo
                 jTabbedPane1.getSelectedComponent().setName(archivo.getPath());//Guardo toda la ruta donde está el archivo
             }
@@ -663,6 +681,17 @@ nPE.setVisible(true);
                 + "\nSegundo semestre, 2019";
         mensaje(msj);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        this.listaErrores.clear();
+        this.entorno.clear();
+        jTextArea1.setText("");
+        crearLexicos();
+        crearSintacticos();
+        crearSemanticos();
+        mensaje("Se ha reiniciado la aplicación");
+
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void close() {
         ImageIcon imageIcon = new ImageIcon("resources/" + "salir" + ".png");
@@ -1067,6 +1096,7 @@ nPE.setVisible(true);
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;

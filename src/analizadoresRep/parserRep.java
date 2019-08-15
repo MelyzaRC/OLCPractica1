@@ -192,7 +192,7 @@ public class parserRep extends java_cup.runtime.lr_parser {
   public short[][] reduce_table() {return _reduce_table;}
 
   /** Instance of action encapsulation class. */
-  public  CUP$parserRep$actions action_obj;
+  public CUP$parserRep$actions action_obj;
 
   /** Action encapsulation object initializer. */
   protected void init_actions()
@@ -722,7 +722,7 @@ public class CUP$parserRep$actions {
 		
         			if(listaVariables.size() >0){
         				for(int i = 0; i < listaVariables.size(); i++){
-        					if(listaVariables.get(i).nombre.equals(a)){
+        					if(listaVariables.get(i).nombre.toLowerCase().equals(a.toLowerCase())){
         							FuncionSubir fs = new FuncionSubir(listaVariables.get(i).tipo, listaVariables.get(i).valor);
         							RESULT = fs;
         						break;
@@ -761,7 +761,7 @@ public class CUP$parserRep$actions {
 		int aright = ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()).right;
 		String a = (String)((java_cup.runtime.Symbol) CUP$parserRep$stack.peek()).value;
 		
-								FuncionSubir fn = new FuncionSubir(2, a.toLowerCase().replace("\"", ""));
+								FuncionSubir fn = new FuncionSubir(2, a.replace("\"", ""));
 								RESULT = fn;
 						
               CUP$parserRep$result = parser.getSymbolFactory().newSymbol("VALOR",11, ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), ((java_cup.runtime.Symbol)CUP$parserRep$stack.peek()), RESULT);

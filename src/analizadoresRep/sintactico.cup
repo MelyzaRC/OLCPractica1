@@ -433,7 +433,7 @@ NOMBRE::=   CADENA:a
         		{:
         			if(listaVariables.size() >0){
         				for(int i = 0; i < listaVariables.size(); i++){
-        					if(listaVariables.get(i).nombre.equals(a)){
+        					if(listaVariables.get(i).nombre.toLowerCase().equals(a.toLowerCase())){
         							FuncionSubir fs = new FuncionSubir(listaVariables.get(i).tipo, listaVariables.get(i).valor);
         							RESULT = fs;
         						break;
@@ -454,7 +454,7 @@ VALOR::=    NUMERO:a
 						:}
         |   CADENA:a
         		{:
-								FuncionSubir fn = new FuncionSubir(2, a.toLowerCase().replace("\"", ""));
+								FuncionSubir fn = new FuncionSubir(2, a.replace("\"", ""));
 								RESULT = fn;
 						:}
         |   ID:a
